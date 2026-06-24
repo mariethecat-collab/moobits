@@ -434,7 +434,6 @@ export default function Order() {
                     <label className={fieldLabel}>{op.fields.name} *</label>
                     <input
                       type="text"
-                      required
                       value={form.name}
                       onChange={(e) => setField("name", e.target.value)}
                       placeholder={op.placeholders.name}
@@ -446,7 +445,6 @@ export default function Order() {
                     <label className={fieldLabel}>{op.fields.whatsapp} *</label>
                     <input
                       type="tel"
-                      required
                       value={form.whatsapp}
                       onChange={(e) => setField("whatsapp", e.target.value)}
                       placeholder={op.placeholders.whatsapp}
@@ -496,7 +494,6 @@ export default function Order() {
                     <label className={fieldLabel}>{op.fields.date} *</label>
                     <input
                       type="date"
-                      required
                       value={form.deliveryDate}
                       onChange={(e) =>
                         setField("deliveryDate", e.target.value)

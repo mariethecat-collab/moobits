@@ -1,46 +1,46 @@
-# Moobits — PRD (Phase 1)
+# Moobits — PRD
 
 ## Original Problem Statement
-Build a polished bilingual (ID default / ENG toggle) landing + catalog website for **Moobits**, a homemade sweet treats brand (Cookies, Bolu Mini, Bolu BIG, Brownies). Premium, playful, warm, iOS-inspired bakery aesthetic. No checkout/cart/admin in Phase 1.
+Bilingual (ID default / ENG) website for **Moobits**, a homemade sweet treats brand (Cookies, Bolu Mini, Bolu BIG, Brownies). Premium, playful, warm, iOS-inspired bakery aesthetic. Phase 1 = landing + catalog. Phase 2 = lightweight order builder + branded invoice + QR placeholder + WhatsApp confirmation (no real checkout).
 
 ## Architecture
-- **Frontend**: React 19 + React Router 7 + Tailwind CSS + shadcn Accordion. Static catalog from `/app/frontend/src/data/products.js`. Bilingual via `LanguageContext` (localStorage `moobits_lang`).
-- **Backend**: FastAPI scaffolding kept untouched (not used in Phase 1).
-- **Database**: MongoDB scaffolding kept untouched.
+- **Frontend**: React 19 + React Router 7 + Tailwind + shadcn Accordion. State via Context (`LanguageContext`, `CartContext`). Static catalog from `/app/frontend/src/data/products.js`. Cart in localStorage `moobits_cart_v1`. Invoice number counter in localStorage `moobits_invoice_counter_YYYYMMDD`. PDF/Image export via `html2canvas` + `jspdf`. QR code via `qrcode.react`.
+- **Backend**: FastAPI scaffolding kept (unused in Phase 1 + 2).
+- **Database**: MongoDB scaffolding kept.
 
-## Pages & Sections (Implemented · 2025-12)
-- `/` Home — Hero · About Preview · New Menu (4 cookie cards w/ 20% discount + strikethrough) · Best Seller (2 bolu mini) · Why Moobits (3 cards) · Category Preview (4 cards) · Promo Banner · Final CTA.
-- `/about` About — story, 5 value cards, Order CTA.
-- `/menu` Catalog — filter tabs (All/Cookies/Bolu Mini/Bolu BIG/Brownies), 14 products grid, "Good to know" info block.
-- `/order-guide` Order Guide — 7-step timeline + Pre-Order Rules.
-- `/faq` FAQ — 12 accordion items + "Still curious?" WA CTA.
-- Footer — contact (WA 083894855149, email, IG @mooobits, area Sunter, hours 07.00–17.00).
+## Pages
+- `/` Home — Hero · About Preview · New Menu (4 cookies, 20% off) · **Bundle (Rp41.400)** · Best Seller · Why Moobits · Category Preview · Promo · Final CTA.
+- `/about`, `/menu` (filter tabs), `/order-guide`, `/faq`, `/bulk-order`, `/order` (new — Phase 2).
+- Global cart drawer (slide-in from right), navbar cart badge, bilingual ID/EN toggle.
+
+## Phase 2 Implementations (2025-12)
+- ProductCard now has qty selector + **Add to Order** button (replaces single WA order).
+- Cart drawer with images, qty controls, notes, remove, subtotal/discount/total.
+- 4-Variant Cookie Bundle product (Rp41.400, 10% off, does NOT stack with 20%).
+- `/order` page: review items, customer form (name, WA, pickup/delivery, address, date, payment method, greeting card, custom, notes, invoice status), order summary, 3 rule cards (Order/Delivery/Payment).
+- Branded **Invoice** component: Moobits logo, tagline, MBT-YYYYMMDD-NNN number, status badge, per-item images, totals, QR code (placeholder for QRIS — "Isagizz Store"), payment deadline 1×24h, admin WA, thank-you note.
+- Invoice actions: **Send to WhatsApp** (auto-fill multi-line message), **Download PDF**, **Download Image**.
+- `/bulk-order`: form (name, WA, event type, qty, date, notes) → opens WA with bulk message; 8 rules sidebar.
+- All Phase 2 copy fully bilingual.
+- Validation: empty cart / missing required fields → custom error banner.
 
 ## Core Requirements (Static)
-- Bilingual ID/EN toggle (default ID); localStorage persistence.
-- WhatsApp CTAs everywhere → `https://wa.me/6283894855149` with prefilled bilingual message.
-- Cookies-only 20% discount; bolu/brownies no discount.
-- All uploaded product images used as-is; bolu/brownies use inline SVG illustrations (no stock photos).
-- iOS-inspired Outfit + Plus Jakarta Sans fonts, white bg with cookie-accent palette, "Dark Jewel Box" product cards.
+- Cookies-only 20% discount; bolu/brownies no discount; bundle 10% (non-stacking).
+- WhatsApp number: `6283894855149`. All CTAs prefill bilingual messages.
+- No real payment gateway, no admin dashboard, no auth, no checkout.
+- 14 individual products + 1 cookie bundle.
 
-## User Personas
-- Indonesian sweet-treat customer browsing on mobile, ordering via WhatsApp pre-order.
-- English-speaking visitor (expat / gift sender) exploring Moobits catalog.
+## What's Been Implemented
+- Phase 1 (59/59 tests passed)
+- Phase 2 (97% pass — 1 medium bug fixed: native `required` no longer blocks JS validator).
 
-## What's Been Implemented (2025-12)
-- Phase 1 MVP complete; 59/59 frontend tests passed.
-- All 14 products listed, prices correct, discounts applied only to cookies.
-- Sticky glassmorphism navbar with language switcher & mobile drawer.
-- Fully bilingual (Home, About, Menu, Order Guide, FAQ, Footer, product cards).
-
-## Prioritised Backlog (Phase 2+)
-- **P0**: WhatsApp order builder (multi-item summary auto-message), greeting card request field.
-- **P1**: Real product photography for Bolu Mini, Bolu BIG, Brownies. Bundling 4-cookie variant SKU.
-- **P1**: Cart + Stripe/Midtrans checkout. Invoice/admin dashboard.
-- **P2**: Hampers / gift packaging product line, customer testimonials (real), legal/halal certificate display once obtained.
-- **P2**: Production-schedule banner (next pre-order open date), pickup/delivery cut-off countdown.
-- **P2**: SEO meta + Open Graph for shareability.
+## Prioritised Backlog (Phase 3+)
+- **P0**: Admin dashboard for order management + invoice status updates + invoice numbering on server.
+- **P0**: Real QRIS image upload (image swap path: `/app/frontend/src/components/Invoice.jsx` QR section).
+- **P1**: Server-side persistent invoices (MongoDB) with shareable link.
+- **P1**: Real Bolu BIG and Brownies product photography.
+- **P1**: Loyalty card backend (currently manual via WhatsApp per user request).
+- **P2**: SEO meta + Open Graph, hampers product line, customer testimonials when collected.
 
 ## Next Tasks
-- Collect remaining product photography.
-- Phase 2 scoping: cart/checkout + admin order management.
+- Phase 3 scoping: admin dashboard + invoice DB + persistent loyalty + QRIS image upload UI.

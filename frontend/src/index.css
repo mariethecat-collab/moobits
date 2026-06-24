@@ -14,6 +14,15 @@ body {
     color: #121212;
 }
 
+/* Strip black product backgrounds visually on any light surface */
+.product-img-blend {
+    mix-blend-mode: multiply;
+}
+/* multiply hides white bg but our images have BLACK bg — use screen */
+.product-img-blend {
+    mix-blend-mode: screen;
+}
+
 .font-display {
     font-family: "Outfit", "Plus Jakarta Sans", sans-serif;
     letter-spacing: -0.01em;

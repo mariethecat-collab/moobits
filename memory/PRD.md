@@ -1,46 +1,43 @@
 # Moobits — PRD
 
 ## Original Problem Statement
-Bilingual (ID default / ENG) website for **Moobits**, a homemade sweet treats brand (Cookies, Bolu Mini, Bolu BIG, Brownies). Premium, playful, warm, iOS-inspired bakery aesthetic. Phase 1 = landing + catalog. Phase 2 = lightweight order builder + branded invoice + QR placeholder + WhatsApp confirmation (no real checkout).
+Bilingual (ID default / ENG) website for **Moobits**, homemade sweet treats (Cookies, Bolu Mini, Bolu BIG, Brownies). Phase 1 = landing + catalog. Phase 2 = order builder + invoice + WhatsApp. Phase 3 = admin dashboard + DB + order management. Phase 4 = final polish (loyalty card, policy pages, disclaimers, SEO, image transparency, WhatsApp click tracking).
 
 ## Architecture
-- **Frontend**: React 19 + React Router 7 + Tailwind + shadcn Accordion. State via Context (`LanguageContext`, `CartContext`). Static catalog from `/app/frontend/src/data/products.js`. Cart in localStorage `moobits_cart_v1`. Invoice number counter in localStorage `moobits_invoice_counter_YYYYMMDD`. PDF/Image export via `html2canvas` + `jspdf`. QR code via `qrcode.react`.
-- **Backend**: FastAPI scaffolding kept (unused in Phase 1 + 2).
-- **Database**: MongoDB scaffolding kept.
+- **Frontend**: React 19 + React Router 7 + Tailwind. State via Context (Lang, Cart, Auth). Axios w/ `withCredentials`. html2canvas + jspdf for invoice export. qrcode.react for placeholder QR.
+- **Backend**: FastAPI + Motor (MongoDB). JWT cookie auth (single seeded admin). CRUD for products / promos / FAQ / settings / orders. CSV export. Resend email notification on new order (no-op if RESEND_API_KEY empty).
+- **Database**: MongoDB. Collections: users, products, promos, orders, faq, site_settings, invoice_settings, login_attempts.
 
 ## Pages
-- `/` Home — Hero · About Preview · New Menu (4 cookies, 20% off) · **Bundle (Rp41.400)** · Best Seller · Why Moobits · Category Preview · Promo · Final CTA.
-- `/about`, `/menu` (filter tabs), `/order-guide`, `/faq`, `/bulk-order`, `/order` (new — Phase 2).
-- Global cart drawer (slide-in from right), navbar cart badge, bilingual ID/EN toggle.
+**Public**: `/` Home (Hero, About, New Menu, Bundle, Best Seller, Why, Categories, Promo, **Loyalty Card**, Final CTA), `/about`, `/menu` (+ Disclaimer card), `/order-guide` (+ Loyalty compact), `/faq`, `/order` (+ Disclaimer), `/bulk-order`, `/policy` (Terms + Refund — NEW Phase 4).
+**Admin**: `/admin` (login), `/admin/dashboard|products|orders|promos|invoice-settings|faq|settings`.
 
-## Phase 2 Implementations (2025-12)
-- ProductCard now has qty selector + **Add to Order** button (replaces single WA order).
-- Cart drawer with images, qty controls, notes, remove, subtotal/discount/total.
-- 4-Variant Cookie Bundle product (Rp41.400, 10% off, does NOT stack with 20%).
-- `/order` page: review items, customer form (name, WA, pickup/delivery, address, date, payment method, greeting card, custom, notes, invoice status), order summary, 3 rule cards (Order/Delivery/Payment).
-- Branded **Invoice** component: Moobits logo, tagline, MBT-YYYYMMDD-NNN number, status badge, per-item images, totals, QR code (placeholder for QRIS — "Isagizz Store"), payment deadline 1×24h, admin WA, thank-you note.
-- Invoice actions: **Send to WhatsApp** (auto-fill multi-line message), **Download PDF**, **Download Image**.
-- `/bulk-order`: form (name, WA, event type, qty, date, notes) → opens WA with bulk message; 8 rules sidebar.
-- All Phase 2 copy fully bilingual.
-- Validation: empty cart / missing required fields → custom error banner.
+## Phase Status (2025-12)
+- **Phase 1**: 59/59 frontend tests passed.
+- **Phase 2**: 97% passed; medium bug fixed (native `required` no longer blocked custom validator).
+- **Phase 3**: full admin + DB shipped; CSV export route ordering bug FIXED (Phase 4).
+- **Phase 4**: image transparency (`mix-blend-mode: screen` on all product images), loyalty stamp card section (Home + Order Guide), bilingual policy page (Terms & Refund), disclaimer card (allergen + homemade) on Menu / Order pages, SEO meta (title + description + OG + Twitter Card), WhatsApp click tracking (PostHog `whatsapp_click` event + gtag fallback), all bolu/brownies now use real photos.
 
-## Core Requirements (Static)
-- Cookies-only 20% discount; bolu/brownies no discount; bundle 10% (non-stacking).
-- WhatsApp number: `6283894855149`. All CTAs prefill bilingual messages.
-- No real payment gateway, no admin dashboard, no auth, no checkout.
-- 14 individual products + 1 cookie bundle.
+## Backend API
+- Auth: `/api/auth/login|logout|me|refresh`
+- Public: `/api/products`, `/api/promos`, `/api/faq`, `/api/settings/site`, `/api/settings/invoice`, `POST /api/orders`
+- Admin: `/api/admin/products|promos|orders|orders-export.csv|faq|settings/site|settings/invoice|stats` (all gated by JWT cookie)
 
-## What's Been Implemented
-- Phase 1 (59/59 tests passed)
-- Phase 2 (97% pass — 1 medium bug fixed: native `required` no longer blocks JS validator).
+## Defaults Seeded
+- Admin: `admin@moobits.id / moobits2026` (env-overridable)
+- 14 products + 2 promos + 12 FAQ + site/invoice settings.
 
-## Prioritised Backlog (Phase 3+)
-- **P0**: Admin dashboard for order management + invoice status updates + invoice numbering on server.
-- **P0**: Real QRIS image upload (image swap path: `/app/frontend/src/components/Invoice.jsx` QR section).
-- **P1**: Server-side persistent invoices (MongoDB) with shareable link.
-- **P1**: Real Bolu BIG and Brownies product photography.
-- **P1**: Loyalty card backend (currently manual via WhatsApp per user request).
-- **P2**: SEO meta + Open Graph, hampers product line, customer testimonials when collected.
+## Test Credentials
+See `/app/memory/test_credentials.md`.
+
+## Prioritised Backlog
+- **P0**: Dark mode (deferred — needs warm cream/brown theme CSS variables work).
+- **P0**: Real Resend send (works once `RESEND_API_KEY` is set in `/app/backend/.env`).
+- **P1**: Real QRIS image upload by admin (UI exists; needs final QRIS file from user).
+- **P1**: XML sitemap + Google Search Console verification meta.
+- **P2**: Customer-side order tracking via shareable invoice URL.
 
 ## Next Tasks
-- Phase 3 scoping: admin dashboard + invoice DB + persistent loyalty + QRIS image upload UI.
+- Set `RESEND_API_KEY` env to activate email notifications.
+- Add real QRIS image via Admin → Invoice Settings.
+- Iterate on dark mode CSS when ready.

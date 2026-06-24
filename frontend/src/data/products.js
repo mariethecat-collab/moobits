@@ -42,6 +42,22 @@ const BOLU_IMAGES = {
     "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/lm6bcgjz_Bolu%20Mini%20Red%20Velvet%20Topping%20Keju%20Parut.png",
   pandan_lumer:
     "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/9ranplh2_Bolu%20Mini%20Pandan%20Isian%20Keju%20Lumer.png",
+  pandan_parut:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/w9sjxxyk_Bolu%20Mini%20Pandan%20Topping%20Keju%20Parut.png",
+};
+
+const BOLU_BIG_IMAGES = {
+  ketan_hitam:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/ly3jrmjj_Bolu%20Ketan%20Hitam%20Isian%20Keju%20Lumer.png",
+  pandan:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/fwllb8fc_Bolu%20Pandan%20Isian%20Keju%20Lumer.png",
+};
+
+const BROWNIES_IMAGES = {
+  keju_full:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/5vhizhqd_Brownies%20Ketan%20Hitam%20Topping%20Keju%20Parut%20Full.png",
+  half_half:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/34986dvy_Brownies%20Ketan%20Hitam%20Topping%2050%25%20Keju%20Parut%2050%25%20Chocochips.png",
 };
 
 // Each product: id, name, category, image (or illustration key), labels, price, discountPct, size,
@@ -208,7 +224,7 @@ export const products = [
     name: "Bolu Mini Pandan Topping Keju Parut",
     shortName: "Bolu Mini Pandan · Keju Parut",
     category: "Bolu Mini",
-    illustration: "bolu-pandan",
+    image: BOLU_IMAGES.pandan_parut,
     labels: [],
     price: 5000,
     discountPct: 0,
@@ -227,7 +243,7 @@ export const products = [
     name: "Bolu BIG Ketan Hitam Isian Keju Lumer",
     shortName: "Bolu BIG Ketan Hitam · Keju Lumer",
     category: "Bolu BIG",
-    illustration: "bolubig-ketanhitam",
+    image: BOLU_BIG_IMAGES.ketan_hitam,
     labels: [],
     price: 45000,
     discountPct: 0,
@@ -244,7 +260,7 @@ export const products = [
     name: "Bolu BIG Pandan Isian Keju Lumer",
     shortName: "Bolu BIG Pandan · Keju Lumer",
     category: "Bolu BIG",
-    illustration: "bolubig-pandan",
+    image: BOLU_BIG_IMAGES.pandan,
     labels: [],
     price: 45000,
     discountPct: 0,
@@ -263,7 +279,7 @@ export const products = [
     name: "Brownies Ketan Hitam Topping Keju Parut Full",
     shortName: "Brownies · Keju Parut Full",
     category: "Brownies",
-    illustration: "brownies-keju",
+    image: BROWNIES_IMAGES.keju_full,
     labels: [],
     price: 35000,
     discountPct: 0,

@@ -13,6 +13,7 @@ import OrderGuide from "@/pages/OrderGuide";
 import FAQ from "@/pages/FAQ";
 import Order from "@/pages/Order";
 import BulkOrder from "@/pages/BulkOrder";
+import Policy from "@/pages/Policy";
 
 // Admin
 import AdminLogin from "@/admin/AdminLogin";
@@ -50,6 +51,7 @@ function App() {
                 <Route path="/faq" element={<PublicShell><FAQ /></PublicShell>} />
                 <Route path="/order" element={<PublicShell><Order /></PublicShell>} />
                 <Route path="/bulk-order" element={<PublicShell><BulkOrder /></PublicShell>} />
+                <Route path="/policy" element={<PublicShell><Policy /></PublicShell>} />
 
                 {/* Admin */}
                 <Route path="/admin" element={<AdminLogin />} />

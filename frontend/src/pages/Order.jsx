@@ -25,6 +25,7 @@ import {
 } from "../data/products";
 import api from "../lib/api";
 import Invoice from "../components/Invoice";
+import Disclaimer from "../components/Disclaimer";
 
 const cleanInputCls =
   "w-full rounded-2xl bg-white px-4 py-3 text-[14px] text-[#121212] placeholder:text-[#A3A3A3] ring-1 ring-black/10 focus:ring-[#8D5B4C] focus:outline-none transition";
@@ -364,7 +365,7 @@ export default function Order() {
                             <img
                               src={l.product.image}
                               alt={l.product.name}
-                              className="h-full w-full object-cover"
+                              className="product-img-blend h-full w-full object-cover"
                             />
                           )}
                         </div>
@@ -653,6 +654,7 @@ export default function Order() {
                   color="#9B2C2C"
                   Icon={CreditCard}
                 />
+                <Disclaimer />
               </div>
             </div>
 

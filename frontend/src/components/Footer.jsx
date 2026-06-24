@@ -49,6 +49,7 @@ export default function Footer() {
                 ["/order-guide", t.nav.orderGuide],
                 ["/faq", t.nav.faq],
                 ["/bulk-order", t.nav.bulkOrder],
+                ["/policy", "Policy"],
               ].map(([to, label]) => (
                 <li key={to}>
                   <Link

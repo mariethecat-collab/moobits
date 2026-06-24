@@ -1,6 +1,7 @@
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { useLang } from "../i18n/LanguageContext";
 import { buildGenericWa } from "../data/products";
+import LoyaltyCard from "../components/LoyaltyCard";
 
 export default function OrderGuide() {
   const { t, lang } = useLang();
@@ -88,6 +89,8 @@ export default function OrderGuide() {
           </div>
         </div>
       </section>
+
+      <LoyaltyCard compact />
     </div>
   );
 }

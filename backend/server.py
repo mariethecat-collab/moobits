@@ -555,25 +555,7 @@ async def list_orders(
         docs.append(d)
     return docs
 
-@api.get("/admin/orders/{invoice_number}", dependencies=[Depends(get_current_user)])
-async def get_order(invoice_number: str):
-    doc = await db.orders.find_one({"invoiceNumber": invoice_number})
-    if not doc:
-        raise HTTPException(status_code=404, detail="Order not found")
-    doc.pop("_id", None)
-    return doc
-
-@api.put("/admin/orders/{invoice_number}", dependencies=[Depends(get_current_user)])
-async def update_order(invoice_number: str, body: Dict[str, Any]):
-    body.pop("_id", None)
-    res = await db.orders.update_one({"invoiceNumber": invoice_number}, {"$set": body})
-    if res.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Order not found")
-    doc = await db.orders.find_one({"invoiceNumber": invoice_number})
-    doc.pop("_id", None)
-    return doc
-
-@api.get("/admin/orders/export.csv", dependencies=[Depends(get_current_user)])
+@api.get("/admin/orders-export.csv", dependencies=[Depends(get_current_user)])
 async def export_orders(
     status_filter: Optional[str] = Query(None, alias="status"),
     fromDate: Optional[str] = None,
@@ -617,6 +599,24 @@ async def export_orders(
         media_type="text/csv",
         headers={"Content-Disposition": f"attachment; filename={filename}"},
     )
+
+@api.get("/admin/orders/{invoice_number}", dependencies=[Depends(get_current_user)])
+async def get_order(invoice_number: str):
+    doc = await db.orders.find_one({"invoiceNumber": invoice_number})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Order not found")
+    doc.pop("_id", None)
+    return doc
+
+@api.put("/admin/orders/{invoice_number}", dependencies=[Depends(get_current_user)])
+async def update_order(invoice_number: str, body: Dict[str, Any]):
+    body.pop("_id", None)
+    res = await db.orders.update_one({"invoiceNumber": invoice_number}, {"$set": body})
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Order not found")
+    doc = await db.orders.find_one({"invoiceNumber": invoice_number})
+    doc.pop("_id", None)
+    return doc
 
 # ---------------- Admin: FAQ ----------------
 class FaqBody(BaseModel):

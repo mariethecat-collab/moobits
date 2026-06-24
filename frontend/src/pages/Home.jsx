@@ -21,6 +21,7 @@ import {
 } from "../data/products";
 import ProductCard from "../components/ProductCard";
 import CategoryIllustration from "../components/CategoryIllustration";
+import LoyaltyCard from "../components/LoyaltyCard";
 import { useCart } from "../cart/CartContext";
 
 const Eyebrow = ({ children, color = "#8D5B4C" }) => (
@@ -129,22 +130,22 @@ export default function Home() {
                   <img
                     src={cookies[0].image}
                     alt={cookies[0].name}
-                    className="absolute top-[6%] left-[8%] w-[46%] rounded-full"
+                    className="product-img-blend absolute top-[6%] left-[8%] w-[46%]"
                   />
                   <img
                     src={cookies[1].image}
                     alt={cookies[1].name}
-                    className="absolute top-[10%] right-[6%] w-[40%] rounded-full"
+                    className="product-img-blend absolute top-[10%] right-[6%] w-[40%]"
                   />
                   <img
                     src={cookies[2].image}
                     alt={cookies[2].name}
-                    className="absolute bottom-[6%] left-[12%] w-[38%] rounded-full"
+                    className="product-img-blend absolute bottom-[6%] left-[12%] w-[38%]"
                   />
                   <img
                     src={cookies[3].image}
                     alt={cookies[3].name}
-                    className="absolute bottom-[8%] right-[10%] w-[44%] rounded-full"
+                    className="product-img-blend absolute bottom-[8%] right-[10%] w-[44%]"
                   />
 
                   {/* Floating tag */}
@@ -536,7 +537,7 @@ export default function Home() {
 
               <div className="lg:col-span-5">
                 <div className="grid grid-cols-2 gap-3">
-                  {cookies.slice(0, 4).map((c, i) => (
+                  {cookies.map((c, i) => (
                     <div
                       key={c.id}
                       className={`aspect-square rounded-3xl overflow-hidden bg-black ring-1 ring-white/10 ${
@@ -546,7 +547,7 @@ export default function Home() {
                       <img
                         src={c.image}
                         alt={c.name}
-                        className="h-full w-full object-cover"
+                        className="product-img-blend h-full w-full object-cover"
                       />
                     </div>
                   ))}
@@ -556,6 +557,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ===================== LOYALTY CARD ===================== */}
+      <LoyaltyCard />
 
       {/* ===================== FINAL CTA ===================== */}
       <section className="py-16 md:py-24">

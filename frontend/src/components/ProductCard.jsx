@@ -53,7 +53,7 @@ export default function ProductCard({ product, featured = false }) {
             src={product.image}
             alt={product.name}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+            className="product-img-blend h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
           />
         ) : (
           <CategoryIllustration

@@ -105,7 +105,7 @@ export default function AdminOrders() {
   useEffect(() => { load(); /* eslint-disable-next-line */ }, [statusF, from, to]);
 
   const exportUrl = () => {
-    const u = new URL(`${process.env.REACT_APP_BACKEND_URL}/api/admin/orders/export.csv`);
+    const u = new URL(`${process.env.REACT_APP_BACKEND_URL}/api/admin/orders-export.csv`);
     if (statusF) u.searchParams.set("status", statusF);
     if (from) u.searchParams.set("fromDate", from);
     if (to) u.searchParams.set("toDate", to);

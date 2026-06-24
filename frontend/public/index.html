@@ -21,7 +21,43 @@
         work correctly both with client-side routing and a non-root public URL.
         Learn how to configure a non-root public URL by running `npm run build`.
         -->
-        <title>Emergent | Fullstack App</title>
+        <title>Moobits | Homemade Sweet Treats in Jakarta</title>
+        <meta name="description" content="Moobits serves freshly made homemade cookies, bolu, and brownies in Jakarta. Pre-order your daily sweet mood through WhatsApp." />
+        <meta name="keywords" content="Moobits, homemade sweet treats Jakarta, cookies homemade Jakarta, cookies Jakarta Utara, bolu ketan hitam Jakarta, bolu pandan keju lumer Jakarta, brownies ketan hitam Jakarta, dessert homemade Jakarta" />
+        <meta name="author" content="Moobits" />
+        <link rel="canonical" href="https://moobits.id/" />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Moobits | Homemade Sweet Treats in Jakarta" />
+        <meta property="og:description" content="Freshly made homemade cookies, bolu, and brownies. Treat Yourself, Fix Your Mood." />
+        <meta property="og:image" content="https://customer-assets.emergentagent.com/job_2d886d91-6abb-40c6-9e2f-b68641f5a7ed/artifacts/faqatn4h_Logo%20Moobits.png" />
+        <meta property="og:locale" content="id_ID" />
+        <meta property="og:site_name" content="Moobits" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Moobits | Homemade Sweet Treats in Jakarta" />
+        <meta name="twitter:description" content="Freshly made homemade cookies, bolu, and brownies. Treat Yourself, Fix Your Mood." />
+        <meta name="twitter:image" content="https://customer-assets.emergentagent.com/job_2d886d91-6abb-40c6-9e2f-b68641f5a7ed/artifacts/faqatn4h_Logo%20Moobits.png" />
+
+        <!-- Google Analytics placeholder (set REACT_APP_GA_ID to enable) -->
+        <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script> -->
+
+        <script>
+          // Lightweight WhatsApp click tracking — fires custom event on every wa.me click.
+          // Integrates with PostHog (already loaded) + optional gtag.
+          document.addEventListener("click", function (ev) {
+            var a = ev.target.closest && ev.target.closest("a[href*='wa.me/']");
+            if (!a) return;
+            try {
+              if (window.posthog && window.posthog.capture) {
+                window.posthog.capture("whatsapp_click", { href: a.href });
+              }
+              if (typeof window.gtag === "function") {
+                window.gtag("event", "whatsapp_click", { event_category: "engagement", value: a.href });
+              }
+            } catch (e) { /* noop */ }
+          }, true);
+        </script>
         <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>
         <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
     </head>

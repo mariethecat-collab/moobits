@@ -169,7 +169,7 @@ const Invoice = forwardRef(function Invoice(
                     <img
                       src={l.product.image}
                       alt={l.product.name}
-                      className="h-full w-full object-cover"
+                      className="product-img-blend h-full w-full object-cover"
                       crossOrigin="anonymous"
                     />
                   )}

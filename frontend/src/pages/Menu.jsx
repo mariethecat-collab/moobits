@@ -4,6 +4,7 @@ import { Info } from "lucide-react";
 import { useLang } from "../i18n/LanguageContext";
 import { products, CATEGORIES } from "../data/products";
 import ProductCard from "../components/ProductCard";
+import Disclaimer from "../components/Disclaimer";
 
 export default function Menu() {
   const { t } = useLang();
@@ -103,6 +104,9 @@ export default function Menu() {
                 </li>
               ))}
             </ul>
+            <div className="mt-6">
+              <Disclaimer />
+            </div>
           </div>
         </div>
       </section>

@@ -107,7 +107,7 @@ export default function CartDrawer() {
                       <img
                         src={l.product.image}
                         alt={l.product.name}
-                        className="h-full w-full object-cover"
+                        className="product-img-blend h-full w-full object-cover"
                       />
                     ) : (
                       <div className="h-full w-full flex items-center justify-center text-white/60 text-xs">

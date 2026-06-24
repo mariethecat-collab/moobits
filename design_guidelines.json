@@ -1,0 +1,76 @@
+{
+  "project_name": "Moobits",
+  "brand_personality": "Premium, Playful, Warm, Clean, Bakery aesthetic, Modern F&B MSME",
+  "theme": "Light Theme (White background)",
+  "archetype": "Organic & Earthy mixed with iOS Soft Utility",
+  "typography": {
+    "fonts_to_import": "@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');",
+    "primary_heading_font": "font-family: 'Outfit', sans-serif;",
+    "secondary_body_font": "font-family: 'Plus Jakarta Sans', sans-serif;",
+    "rules": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#121212]",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-[#121212]",
+      "h3": "text-xl sm:text-2xl font-medium text-[#121212]",
+      "body": "text-base leading-relaxed text-[#525252]",
+      "small": "text-sm text-[#737373]",
+      "overline": "text-xs font-bold uppercase tracking-[0.2em] text-[#8D5B4C]"
+    }
+  },
+  "colors": {
+    "background": "#FFFFFF",
+    "surface_light": "#FDFBF7",
+    "surface_dark": "#0A0A0A",
+    "text_primary": "#121212",
+    "text_secondary": "#525252",
+    "accents": {
+      "warm_brown": "#8D5B4C",
+      "soft_cheese": "#FCD34D",
+      "matcha_green": "#86A789",
+      "red_velvet": "#9B2C2C",
+      "blue_monster": "#3B82F6"
+    }
+  },
+  "surface_strategies": {
+    "header": "Crystal Glassmorphism: bg-white/70 backdrop-blur-xl border-b border-black/5. Sticky top-0 z-50.",
+    "product_cards": "Dark Jewel Box (CRITICAL): Because uploaded product images have pure black backgrounds, the product cards MUST be bg-[#000000] or bg-[#0A0A0A] with rounded-[2rem] and overflow-hidden. Text inside these dark cards must be white/cream. This blends the image background seamlessly, creating a premium high-contrast look on the white page.",
+    "feature_cards": "Soft iOS Squircles: bg-[#FDFBF7] rounded-[2rem] border border-black/5 shadow-sm p-6 to p-8.",
+    "buttons": "Primary: bg-[#121212] text-white rounded-full px-6 py-3 hover:bg-[#2A2A2A]. Secondary: bg-[#FDFBF7] text-[#121212] border border-black/10 rounded-full."
+  },
+  "layout_rules": {
+    "spacing": "Generous. Use section padding py-16 md:py-24. Internal card padding p-6 or p-8.",
+    "border_radius": "Extremely rounded to mimic iOS and bakery softness. Use rounded-2xl, rounded-3xl, or rounded-[2rem].",
+    "grids": "Bento Grid approach for 'Why Moobits' and Category previews. gap-4 sm:gap-6 lg:gap-8."
+  },
+  "media": {
+    "logo": "https://customer-assets.emergentagent.com/job_2d886d91-6abb-40c6-9e2f-b68641f5a7ed/artifacts/faqatn4h_Logo%20Moobits.png",
+    "products": {
+      "classic_og": "https://customer-assets.emergentagent.com/job_2d886d91-6abb-40c6-9e2f-b68641f5a7ed/artifacts/8s8pnu10_The%20Classic%20OG%20Cookies.png",
+      "velvet_crush": "https://customer-assets.emergentagent.com/job_2d886d91-6abb-40c6-9e2f-b68641f5a7ed/artifacts/ks3xrubv_The%20Velvet%20Crush%20Cookies.png",
+      "matcha": "https://customer-assets.emergentagent.com/job_2d886d91-6abb-40c6-9e2f-b68641f5a7ed/artifacts/swvvr9td_The%20Matcha%20Cookies.png",
+      "blue_monstiez": "https://customer-assets.emergentagent.com/job_2d886d91-6abb-40c6-9e2f-b68641f5a7ed/artifacts/ao9drma2_The%20Blue%20Monstiez%20Cookies.png"
+    },
+    "placeholders": "For Bolu Mini, Bolu BIG, and Brownies: DO NOT USE STOCK PHOTOS. Create minimalist CSS geometry or SVG icons using the accent colors (e.g., a Warm Brown rounded square for Brownies) inside the product cards."
+  },
+  "interactions": {
+    "hover_cards": "transition-all duration-300 hover:-translate-y-1 hover:shadow-md",
+    "hover_buttons": "transition-all duration-200 active:scale-95 hover:opacity-90",
+    "hover_images": "group-hover:scale-105 transition-transform duration-500"
+  },
+  "pages_structure": {
+    "Global": "Sticky Navbar with ID/EN switcher and 'Order Now' WhatsApp CTA.",
+    "Home": "Hero (Dual headline, 2 CTAs, 'Pre-order based' small text, Cookie showcase) -> About Preview -> New Menu (4 Cookie Cards with 20% strikethrough discount) -> Best Seller (2 Bolu Mini cards with badges) -> Why Moobits (3 features) -> Category Preview -> Promo Banner -> Final CTA.",
+    "About": "Brand story, premium imagery (if any) or typographic focus, Values.",
+    "Menu": "Full Catalog with category filter tabs (Cookies, Bolu Mini, Bolu BIG, Brownies).",
+    "Order_Guide": "Step-by-step timeline.",
+    "FAQ": "Accordion style (Shadcn customized)."
+  },
+  "instructions_to_main_agent": [
+    "1. MUST install and use lucide-react for all icons.",
+    "2. CRITICAL: The cookie images have pure black backgrounds. You MUST frame them inside cards with bg-[#000000] or bg-[#0A0A0A] so the background perfectly camouflages. Put white/cream text in these dark cards. This creates a high-end 'jewel box' aesthetic against the white page.",
+    "3. WhatsApp CTA everywhere must link to: https://wa.me/6283894855149",
+    "4. Implement bilingual content (Indonesian default, English optional) using simple React state/context.",
+    "5. Add data-testid to all interactive elements (buttons, nav links, tabs, accordions).",
+    "6. Do not use generic Shadcn styling directly; customize classes to match the rounded iOS aesthetic (e.g., rounded-[2rem]).",
+    "7. Build the UI as a multi-page feel or smooth scrolling single-page app with distinct sections."
+  ]
+}

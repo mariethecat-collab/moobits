@@ -23,6 +23,7 @@ import {
   generateInvoiceNumber,
   WHATSAPP_NUMBER,
 } from "../data/products";
+import api from "../lib/api";
 import Invoice from "../components/Invoice";
 
 const cleanInputCls =
@@ -112,7 +113,7 @@ export default function Order() {
       lang === "id" ? "id-ID" : "en-GB",
       { day: "2-digit", month: "long", year: "numeric" }
     );
-    setInvoiceData({
+    const data = {
       invoiceNumber: number,
       orderDate,
       customerName: form.name.trim(),
@@ -124,8 +125,46 @@ export default function Order() {
       greeting: form.greeting.trim(),
       custom: form.custom.trim(),
       notes: form.notes.trim(),
-    });
+    };
+    setInvoiceData(data);
     setSuccess(true);
+
+    // Persist order to backend (fire-and-forget; do NOT block UX)
+    const payload = {
+      invoiceNumber: number,
+      customerName: data.customerName,
+      customerWa: data.customerWa,
+      method: data.method,
+      address: data.address,
+      deliveryDate: data.deliveryDate,
+      paymentMethod: data.paymentMethod,
+      greeting: data.greeting,
+      custom: data.custom,
+      notes: data.notes,
+      items: lines.map((l) => ({
+        productId: l.id,
+        productName: l.product.name,
+        category: l.product.category,
+        qty: l.qty,
+        unitPrice: l.unit,
+        originalPrice: l.original,
+        lineTotal: l.lineTotal,
+        note: l.note || "",
+        image: l.product.image || "",
+      })),
+      subtotalOriginal: totals.subtotalOriginal,
+      discount: totals.discount,
+      total: totals.subtotalAfterDiscount,
+      paymentStatus: form.status,
+      orderStatus: "New Order",
+      lang,
+    };
+    api.post("/orders", payload).catch((err) => {
+      // Order already saved client-side in localStorage; warn but do not block.
+      // eslint-disable-next-line no-console
+      console.warn("Order persistence failed:", err?.response?.data || err.message);
+    });
+
     setTimeout(() => {
       document
         .getElementById("invoice-anchor")

@@ -1,7 +1,8 @@
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { CartProvider } from "@/cart/CartContext";
+import { AuthProvider } from "@/admin/AuthContext";
 import CartDrawer from "@/cart/CartDrawer";
 import Layout from "@/components/Layout";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -13,29 +14,67 @@ import FAQ from "@/pages/FAQ";
 import Order from "@/pages/Order";
 import BulkOrder from "@/pages/BulkOrder";
 
+// Admin
+import AdminLogin from "@/admin/AdminLogin";
+import AdminLayout from "@/admin/AdminLayout";
+import ProtectedRoute from "@/admin/ProtectedRoute";
+import AdminDashboard from "@/admin/pages/AdminDashboard";
+import AdminProducts from "@/admin/pages/AdminProducts";
+import AdminOrders from "@/admin/pages/AdminOrders";
+import AdminPromos from "@/admin/pages/AdminPromos";
+import AdminInvoiceSettings from "@/admin/pages/AdminInvoiceSettings";
+import AdminFaq from "@/admin/pages/AdminFaq";
+import AdminSettings from "@/admin/pages/AdminSettings";
+
+const PublicShell = ({ children }) => (
+  <>
+    <Layout>{children}</Layout>
+    <CartDrawer />
+  </>
+);
+
 function App() {
   return (
     <div className="App">
-      <LanguageProvider>
-        <CartProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <Layout>
+      <AuthProvider>
+        <LanguageProvider>
+          <CartProvider>
+            <BrowserRouter>
+              <ScrollToTop />
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/menu" element={<Menu />} />
-                <Route path="/order-guide" element={<OrderGuide />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/order" element={<Order />} />
-                <Route path="/bulk-order" element={<BulkOrder />} />
-                <Route path="*" element={<Home />} />
+                {/* Public */}
+                <Route path="/" element={<PublicShell><Home /></PublicShell>} />
+                <Route path="/about" element={<PublicShell><About /></PublicShell>} />
+                <Route path="/menu" element={<PublicShell><Menu /></PublicShell>} />
+                <Route path="/order-guide" element={<PublicShell><OrderGuide /></PublicShell>} />
+                <Route path="/faq" element={<PublicShell><FAQ /></PublicShell>} />
+                <Route path="/order" element={<PublicShell><Order /></PublicShell>} />
+                <Route path="/bulk-order" element={<PublicShell><BulkOrder /></PublicShell>} />
+
+                {/* Admin */}
+                <Route path="/admin" element={<AdminLogin />} />
+                <Route
+                  element={
+                    <ProtectedRoute>
+                      <AdminLayout />
+                    </ProtectedRoute>
+                  }
+                >
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  <Route path="/admin/products" element={<AdminProducts />} />
+                  <Route path="/admin/orders" element={<AdminOrders />} />
+                  <Route path="/admin/promos" element={<AdminPromos />} />
+                  <Route path="/admin/invoice-settings" element={<AdminInvoiceSettings />} />
+                  <Route path="/admin/faq" element={<AdminFaq />} />
+                  <Route path="/admin/settings" element={<AdminSettings />} />
+                </Route>
+
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
-            </Layout>
-            <CartDrawer />
-          </BrowserRouter>
-        </CartProvider>
-      </LanguageProvider>
+            </BrowserRouter>
+          </CartProvider>
+        </LanguageProvider>
+      </AuthProvider>
     </div>
   );
 }

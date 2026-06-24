@@ -1,7 +1,9 @@
-import { ArrowUpRight } from "lucide-react";
+import { useState } from "react";
+import { Plus, Minus, ShoppingBag, Check } from "lucide-react";
 import { useLang } from "../i18n/LanguageContext";
-import { buildWaLink, formatIDR } from "../data/products";
+import { formatIDR } from "../data/products";
 import CategoryIllustration from "./CategoryIllustration";
+import { useCart } from "../cart/CartContext";
 
 const LabelBadge = ({ kind, children }) => {
   const styles = {
@@ -22,12 +24,22 @@ const LabelBadge = ({ kind, children }) => {
 
 export default function ProductCard({ product, featured = false }) {
   const { t, lang } = useLang();
+  const { addItem } = useCart();
+  const [qty, setQty] = useState(1);
+  const [justAdded, setJustAdded] = useState(false);
+
   const desc = lang === "id" ? product.descId : product.descEn;
   const textures = lang === "id" ? product.textureId : product.textureEn;
   const hasDiscount = product.discountPct > 0;
   const discounted = Math.round(
     product.price * (1 - product.discountPct / 100)
   );
+
+  const handleAdd = () => {
+    addItem(product.id, qty);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1500);
+  };
 
   return (
     <article
@@ -73,7 +85,6 @@ export default function ProductCard({ product, featured = false }) {
           </div>
         )}
 
-        {/* Accent glow strip at bottom of image */}
         <div
           className="absolute -bottom-1 left-0 right-0 h-px"
           style={{ background: product.accent, opacity: 0.7 }}
@@ -106,7 +117,6 @@ export default function ProductCard({ product, featured = false }) {
           {desc}
         </p>
 
-        {/* Textures */}
         {textures?.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-1.5">
             {textures.map((tx) => (
@@ -120,29 +130,71 @@ export default function ProductCard({ product, featured = false }) {
           </div>
         )}
 
-        {/* Price + CTA */}
-        <div className="mt-6 flex items-end justify-between gap-3 pt-5 border-t border-white/10">
-          <div>
-            {hasDiscount && (
-              <div className="text-[11px] text-white/40 line-through leading-none">
-                {formatIDR(product.price)}
+        {/* Price */}
+        <div className="mt-6 pt-5 border-t border-white/10">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              {hasDiscount && (
+                <div className="text-[11px] text-white/40 line-through leading-none">
+                  {formatIDR(product.price)}
+                </div>
+              )}
+              <div className="mt-1 font-display text-[22px] font-bold text-white leading-none">
+                {formatIDR(hasDiscount ? discounted : product.price)}
               </div>
-            )}
-            <div className="mt-1 font-display text-[22px] font-bold text-white leading-none">
-              {formatIDR(hasDiscount ? discounted : product.price)}
+            </div>
+
+            {/* Qty selector */}
+            <div className="inline-flex items-center rounded-full bg-white/10 ring-1 ring-white/15">
+              <button
+                type="button"
+                onClick={() => setQty((q) => Math.max(1, q - 1))}
+                data-testid={`qty-decr-${product.id}`}
+                aria-label="Decrease"
+                className="h-8 w-8 rounded-full flex items-center justify-center text-white/80 hover:text-white"
+              >
+                <Minus size={13} />
+              </button>
+              <span
+                className="px-1 min-w-[28px] text-center text-[13.5px] font-bold text-white"
+                data-testid={`qty-value-${product.id}`}
+              >
+                {qty}
+              </span>
+              <button
+                type="button"
+                onClick={() => setQty((q) => q + 1)}
+                data-testid={`qty-incr-${product.id}`}
+                aria-label="Increase"
+                className="h-8 w-8 rounded-full flex items-center justify-center text-white/80 hover:text-white"
+              >
+                <Plus size={13} />
+              </button>
             </div>
           </div>
 
-          <a
-            href={buildWaLink(product.name, lang)}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-testid={`order-wa-${product.id}`}
-            className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2.5 text-[13px] font-semibold text-[#121212] transition-all duration-200 hover:bg-[#FCD34D] active:scale-95"
+          <button
+            type="button"
+            onClick={handleAdd}
+            data-testid={`add-to-order-${product.id}`}
+            className={`mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[13.5px] font-semibold transition-all duration-200 active:scale-[0.97] ${
+              justAdded
+                ? "bg-[#86A789] text-white"
+                : "bg-white text-[#121212] hover:bg-[#FCD34D]"
+            }`}
           >
-            {t.common.orderViaWa}
-            <ArrowUpRight size={14} />
-          </a>
+            {justAdded ? (
+              <>
+                <Check size={15} />
+                {lang === "id" ? "Ditambahkan" : "Added"}
+              </>
+            ) : (
+              <>
+                <ShoppingBag size={14} />
+                {lang === "id" ? "Tambahkan ke Order" : "Add to Order"}
+              </>
+            )}
+          </button>
         </div>
       </div>
     </article>

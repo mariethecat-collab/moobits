@@ -1,0 +1,36 @@
+{
+  "summary": "Phase 2 Moobits Order Builder frontend tested end-to-end on desktop (1920x1080) and mobile (390x844). All cart, order, invoice, bulk-order, language, and persistence flows pass. Discount math verified (Classic OG 2× Rp10.000 → Rp16.000 after 20% discount; Bundle Rp46.000 → Rp41.400 at 10% off, stacked with cookie line for combined total Rp57.400). Invoice number formatted MBT-20260624-001 per spec. Zero console errors. One minor UX deviation: native HTML5 'required' attribute traps the empty submit before the custom form-error banner can render.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Order.jsx customer form",
+        "issue": "Clicking generate-invoice-btn with empty name/whatsapp/date does NOT show the custom data-testid='form-error' banner because the form inputs use the native HTML5 'required' attribute, so the browser blocks submission before validate() runs. The review explicitly states the red banner with 'Lengkapi data order terlebih dahulu' / 'Please complete your order details first' should appear. Fix: remove the 'required' attribute from name/whatsapp/date inputs (and the address conditional) so the onSubmit handler runs and validate() can set the error state. Alternatively, change the button to type='button' and call handleGenerate via onClick, but then keep validation entirely in JS.",
+        "selector": "[data-testid='form-error']",
+        "priority": "MEDIUM"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Decide between native HTML5 validation and the custom form-error banner in Order.jsx — remove `required` from form-name/form-whatsapp/form-date/form-address (or switch submit button to type=button) so the JS validator runs and the form-error banner appears when fields are empty (current behavior shows browser tooltip instead)."
+  ],
+  "critical_code_review_comments": [
+    "Order.jsx is ~750 lines — consider splitting into <OrderItemsList/>, <CustomerForm/>, <OrderSummary/>, <InvoiceActions/> subcomponents for maintainability (>700 line guideline).",
+    "Native HTML5 `required` on form inputs conflicts with the custom validate()+form-error pattern; pick one source of truth.",
+    "captureCanvas relies on dynamic imports of html2canvas/jspdf at click time — first PDF download triggers a network fetch and ~2s delay. Acceptable for MVP but consider prefetching once invoiceData is set, or showing a loading state on the download buttons (no spinner/disabled state during capture currently).",
+    "localStorage 'moobits_invoice_counter_YYYYMMDD' is per-device only — if user generates invoice on phone vs laptop, both will start at MBT-…-001. Documented but worth flagging.",
+    "deliveryDate input default of `todayISO()` may produce a past date if user opens form just before midnight — minor edge case.",
+    "Cart line `cart-line-${id}` keys use product id directly; if the same product is added with different notes the latest note overwrites the earlier (addItem merges qty and replaces note). Expected for this simple cart but worth confirming with PM."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (frontend-only)", "frontend": "~97%"},
+  "seed_data_creation": "None. Used localStorage to clear cart between runs.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Public URL https://moobits-launch.preview.emergentagent.com. Cart key 'moobits_cart_v1'. Discount math: cookies (classic-og, velvet-crush, matcha-cookies, blue-monstiez) have discountPct=20; all bm-* / bb-* / br-* items have discountPct=0; COOKIE_BUNDLE (id 'bundle-cookies-4') is priced Rp41.400 (originalPrice Rp46.000, ~10% off) and is a single line item, NOT stacked with the 20% cookie discount. Invoice number format MBT-YYYYMMDD-NNN with per-day localStorage counter. WhatsApp number 6283894855149. Verified flows: home→add product→drawer→/order→fill form→generate invoice→send-wa/download-pdf/download-img. Bulk-order /bulk-order form fields all present, 8 rules in sidebar, submit opens wa.me with prefilled text. Language switching works on /order and /bulk-order. Mobile drawer is full-width (390px). No console errors.",
+  "test_credentials": "N/A (no auth)",
+  "rca of the issue": "form-error banner not appearing on empty submit: form input elements have the HTML attribute `required` (e.g., <input required type='text' data-testid='form-name'>) and the submit button is type='submit' inside a <form onSubmit={handleGenerate}>. The browser-native constraint validation runs first and blocks the submit event, so handleGenerate → validate() never executes and setError(...) is never called. Reproduction: open /order with no items, click [data-testid='generate-invoice-btn']; observe browser tooltip 'Please fill out this field' instead of the in-page red banner. Fix: remove `required` from name/whatsapp/deliveryDate/address inputs in /app/frontend/src/pages/Order.jsx so the JS validator is the single source of truth, OR convert the submit button to type='button' with onClick={handleGenerate} (and remove the <form> wrapper or its onSubmit)."
+}

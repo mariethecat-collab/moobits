@@ -31,6 +31,19 @@ const COOKIE_IMAGES = {
 export const LOGO_URL =
   "https://customer-assets.emergentagent.com/job_2d886d91-6abb-40c6-9e2f-b68641f5a7ed/artifacts/faqatn4h_Logo%20Moobits.png";
 
+const BOLU_IMAGES = {
+  ketan_hitam_lumer:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/lrn3thnd_Bolu%20Mini%20Ketan%20Hitam%20Isian%20Keju%20Lumer.png",
+  ketan_hitam_parut:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/hnz942qf_Bolu%20Mini%20Ketan%20Hitam%20Topping%20Keju%20Parut.png",
+  redvelvet_lumer:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/eaag6i5n_Bolu%20Mini%20Red%20Velvet%20Isian%20Keju%20Lumer.png",
+  redvelvet_parut:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/lm6bcgjz_Bolu%20Mini%20Red%20Velvet%20Topping%20Keju%20Parut.png",
+  pandan_lumer:
+    "https://customer-assets.emergentagent.com/job_moobits-launch/artifacts/9ranplh2_Bolu%20Mini%20Pandan%20Isian%20Keju%20Lumer.png",
+};
+
 // Each product: id, name, category, image (or illustration key), labels, price, discountPct, size,
 // descId, descEn, textureId, textureEn, accent (hex)
 export const products = [
@@ -110,7 +123,7 @@ export const products = [
     name: "Bolu Mini Ketan Hitam Isian Keju Lumer",
     shortName: "Bolu Mini Ketan Hitam · Keju Lumer",
     category: "Bolu Mini",
-    illustration: "bolu-ketanhitam",
+    image: BOLU_IMAGES.ketan_hitam_lumer,
     labels: ["Best Seller", "Recommended"],
     price: 5000,
     discountPct: 0,
@@ -127,7 +140,7 @@ export const products = [
     name: "Bolu Mini Ketan Hitam Topping Keju Parut",
     shortName: "Bolu Mini Ketan Hitam · Keju Parut",
     category: "Bolu Mini",
-    illustration: "bolu-ketanhitam",
+    image: BOLU_IMAGES.ketan_hitam_parut,
     labels: [],
     price: 5000,
     discountPct: 0,
@@ -144,7 +157,7 @@ export const products = [
     name: "Bolu Mini Red Velvet Isian Keju Lumer",
     shortName: "Bolu Mini Red Velvet · Keju Lumer",
     category: "Bolu Mini",
-    illustration: "bolu-redvelvet",
+    image: BOLU_IMAGES.redvelvet_lumer,
     labels: [],
     price: 5000,
     discountPct: 0,
@@ -161,7 +174,7 @@ export const products = [
     name: "Bolu Mini Red Velvet Topping Keju Parut",
     shortName: "Bolu Mini Red Velvet · Keju Parut",
     category: "Bolu Mini",
-    illustration: "bolu-redvelvet",
+    image: BOLU_IMAGES.redvelvet_parut,
     labels: [],
     price: 5000,
     discountPct: 0,
@@ -178,7 +191,7 @@ export const products = [
     name: "Bolu Mini Pandan Isian Keju Lumer",
     shortName: "Bolu Mini Pandan · Keju Lumer",
     category: "Bolu Mini",
-    illustration: "bolu-pandan",
+    image: BOLU_IMAGES.pandan_lumer,
     labels: ["Best Seller", "Recommended"],
     price: 5000,
     discountPct: 0,
@@ -283,4 +296,55 @@ export const products = [
 
 export const CATEGORIES = ["Cookies", "Bolu Mini", "Bolu BIG", "Brownies"];
 
+// 4-Variant Cookie Bundle (Promo 2) — not in catalog grid, only addable from a dedicated CTA.
+export const COOKIE_BUNDLE = {
+  id: "bundle-cookies-4",
+  name: "Bundling Cookies 4 Varian",
+  nameEn: "4-Variant Cookie Bundle",
+  category: "Cookies",
+  isBundle: true,
+  image:
+    "https://customer-assets.emergentagent.com/job_2d886d91-6abb-40c6-9e2f-b68641f5a7ed/artifacts/faqatn4h_Logo%20Moobits.png",
+  // Composition (1 of each cookie)
+  contents: ["classic-og", "velvet-crush", "matcha-cookies", "blue-monstiez"],
+  originalPrice: 46000, // 10000 + 12000 + 12000 + 12000
+  bundleDiscountPct: 10,
+  bundlePrice: 41400,
+  accent: "#8D5B4C",
+  descId:
+    "Satu set lengkap 4 varian cookies Moobits. Diskon 10% untuk paket bundling.",
+  descEn:
+    "A complete set of all 4 Moobits cookie variants. 10% off bundle promo.",
+  textureId: ["1× Classic OG", "1× Velvet Crush", "1× Matcha", "1× Blue Monstiez"],
+  textureEn: ["1× Classic OG", "1× Velvet Crush", "1× Matcha", "1× Blue Monstiez"],
+};
+
 export const formatIDR = (n) => `Rp${n.toLocaleString("id-ID")}`;
+
+// Compute discounted unit price for a regular product (not a bundle).
+export const unitPrice = (product) => {
+  if (product.isBundle) return product.bundlePrice;
+  if (product.discountPct > 0) {
+    return Math.round(product.price * (1 - product.discountPct / 100));
+  }
+  return product.price;
+};
+
+// Returns formatted invoice number based on a daily counter stored in localStorage.
+export const generateInvoiceNumber = () => {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  const dateKey = `${y}${m}${d}`;
+  const counterKey = `moobits_invoice_counter_${dateKey}`;
+  let n = 1;
+  try {
+    const stored = parseInt(localStorage.getItem(counterKey) || "0", 10);
+    n = (isNaN(stored) ? 0 : stored) + 1;
+    localStorage.setItem(counterKey, String(n));
+  } catch (e) {
+    n = 1;
+  }
+  return `MBT-${dateKey}-${String(n).padStart(3, "0")}`;
+};

@@ -6,17 +6,22 @@ import {
   Leaf,
   Heart,
   Cookie,
+  Package,
+  Check,
 } from "lucide-react";
 import { useLang } from "../i18n/LanguageContext";
 import {
   products,
   CATEGORIES,
+  COOKIE_BUNDLE,
   buildGenericWa,
   buildWaLink,
   LOGO_URL,
+  formatIDR,
 } from "../data/products";
 import ProductCard from "../components/ProductCard";
 import CategoryIllustration from "../components/CategoryIllustration";
+import { useCart } from "../cart/CartContext";
 
 const Eyebrow = ({ children, color = "#8D5B4C" }) => (
   <div
@@ -48,6 +53,7 @@ const SectionTitle = ({ eyebrow, title, sub, color, align = "left" }) => (
 
 export default function Home() {
   const { t, lang } = useLang();
+  const { addItem } = useCart();
   const cookies = products.filter((p) => p.category === "Cookies");
   const bestSellers = products.filter(
     (p) =>
@@ -252,6 +258,99 @@ export default function Home() {
             {cookies.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================== BUNDLE PROMO ===================== */}
+      <section className="py-12 md:py-20 bg-[#FDFBF7]">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="rounded-[2.5rem] bg-[#0A0A0A] text-white overflow-hidden ring-1 ring-white/5">
+            <div className="grid grid-cols-1 lg:grid-cols-12">
+              <div className="lg:col-span-7 p-8 sm:p-10 lg:p-14">
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#FCD34D]">
+                  <Package size={13} />
+                  {t.bundle.eyebrow}
+                </div>
+                <h2 className="mt-5 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+                  {t.bundle.title}
+                </h2>
+                <p className="mt-4 max-w-xl text-white/70 text-[16px] leading-relaxed">
+                  {t.bundle.sub}
+                </p>
+
+                <div className="mt-6 text-[11px] uppercase tracking-[0.18em] font-bold text-white/55">
+                  {t.bundle.includes}
+                </div>
+                <ul className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-y-1.5 text-[13.5px] text-white/85">
+                  {COOKIE_BUNDLE.contents.map((cid) => {
+                    const c = products.find((p) => p.id === cid);
+                    return (
+                      <li key={cid} className="flex items-center gap-2">
+                        <Check size={13} className="text-[#86A789]" />
+                        {c?.name}
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <div className="mt-7 flex flex-wrap items-end gap-x-5 gap-y-2">
+                  <div className="text-[12px] text-white/45 line-through leading-none">
+                    {formatIDR(COOKIE_BUNDLE.originalPrice)}
+                  </div>
+                  <div className="font-display text-[36px] sm:text-[42px] font-bold leading-none">
+                    {formatIDR(COOKIE_BUNDLE.bundlePrice)}
+                  </div>
+                  <div className="rounded-full bg-[#FCD34D] text-[#3A2A0E] px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
+                    -{COOKIE_BUNDLE.bundleDiscountPct}% Bundle
+                  </div>
+                </div>
+
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    onClick={() => addItem(COOKIE_BUNDLE.id, 1)}
+                    data-testid="bundle-add-cta"
+                    className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-[14.5px] font-semibold text-[#121212] hover:bg-[#FCD34D] active:scale-[0.97] transition-all"
+                  >
+                    <Package size={15} />
+                    {t.bundle.addCta}
+                  </button>
+                  <Link
+                    to="/order"
+                    className="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3.5 text-[14.5px] font-semibold text-white hover:bg-white/15 transition-all"
+                    data-testid="bundle-view-order"
+                  >
+                    {lang === "id" ? "Lihat Order" : "View Order"}
+                    <ArrowRight size={15} />
+                  </Link>
+                </div>
+
+                <p className="mt-5 text-[11.5px] text-white/45 leading-relaxed max-w-md">
+                  {t.bundle.note}
+                </p>
+              </div>
+
+              <div className="lg:col-span-5 relative bg-black overflow-hidden min-h-[260px]">
+                <div className="absolute inset-0 grid grid-cols-2 gap-1 p-4">
+                  {cookies.map((c) => (
+                    <div
+                      key={c.id}
+                      className="rounded-2xl overflow-hidden ring-1 ring-white/5"
+                    >
+                      <img
+                        src={c.image}
+                        alt={c.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="absolute bottom-4 right-4 rounded-full bg-white text-[#121212] px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-wider shadow-lg">
+                  4 Variants · 1 Bundle
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

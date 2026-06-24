@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingBag } from "lucide-react";
 import { useLang } from "../i18n/LanguageContext";
 import { buildGenericWa, LOGO_URL } from "../data/products";
+import { useCart } from "../cart/CartContext";
 
 const NavItem = ({ to, children, onClick }) => (
   <NavLink
@@ -31,6 +32,7 @@ const NavItem = ({ to, children, onClick }) => (
 
 export default function Navbar() {
   const { t, lang, toggleLang } = useLang();
+  const { setIsOpen: setCartOpen, totals } = useCart();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -81,16 +83,36 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-7 xl:gap-8">
             <NavItem to="/">{t.nav.home}</NavItem>
             <NavItem to="/about">{t.nav.about}</NavItem>
             <NavItem to="/menu">{t.nav.menu}</NavItem>
             <NavItem to="/order-guide">{t.nav.orderGuide}</NavItem>
             <NavItem to="/faq">{t.nav.faq}</NavItem>
+            <NavItem to="/bulk-order">{t.nav.bulkOrder}</NavItem>
           </nav>
 
           {/* Right cluster */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Cart button */}
+            <button
+              type="button"
+              onClick={() => setCartOpen(true)}
+              data-testid="navbar-cart-button"
+              aria-label="Open order cart"
+              className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/80 ring-1 ring-black/10 text-[#121212] hover:bg-[#FDFBF7] transition-colors"
+            >
+              <ShoppingBag size={16} />
+              {totals.totalItems > 0 && (
+                <span
+                  data-testid="navbar-cart-count"
+                  className="absolute -top-1 -right-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#9B2C2C] px-1 text-[10px] font-bold text-white ring-2 ring-white"
+                >
+                  {totals.totalItems}
+                </span>
+              )}
+            </button>
+
             {/* Language toggle */}
             <button
               type="button"
@@ -161,6 +183,7 @@ export default function Navbar() {
             ["/menu", t.nav.menu],
             ["/order-guide", t.nav.orderGuide],
             ["/faq", t.nav.faq],
+            ["/bulk-order", t.nav.bulkOrder],
           ].map(([to, label]) => (
             <Link
               key={to}

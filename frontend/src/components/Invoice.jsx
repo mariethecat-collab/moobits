@@ -51,7 +51,7 @@ const Invoice = forwardRef(function Invoice(
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#8D5B4C] via-[#FCD34D] to-[#9B2C2C]" />
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="h-14 w-14 rounded-full overflow-hidden bg-black ring-1 ring-black/5">
+              <div className="h-14 w-14 rounded-full overflow-hidden bg-muted">
                 <img
                   src={LOGO_URL}
                   alt="Moobits"
@@ -164,7 +164,7 @@ const Invoice = forwardRef(function Invoice(
                 className="flex gap-3 p-3"
                 data-testid={`invoice-line-${l.id}`}
               >
-                <div className="h-16 w-16 shrink-0 rounded-xl overflow-hidden bg-black">
+                <div className="h-16 w-16 shrink-0 rounded-xl overflow-hidden bg-muted">
                   {l.product.image && (
                     <img
                       src={l.product.image}
@@ -317,6 +317,11 @@ const Invoice = forwardRef(function Invoice(
             style={{ fontFamily: "'Outfit', sans-serif" }}
           >
             {inv.thanks}
+
+            <div className="mt-3 rounded-xl bg-amber-50 border border-amber-200 p-3 text-sm text-amber-900">
+  <p className="font-semibold">{inv.storageNoteTitle}</p>
+  <p>{inv.storageNote}</p>
+</div>
           </div>
           <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-[#8D5B4C] font-bold">
             Moobits · @mooobits · Sunter, Jakarta Utara

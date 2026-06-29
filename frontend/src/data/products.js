@@ -71,6 +71,7 @@ export const products = [
     image: COOKIE_IMAGES.classic_og,
     labels: ["New Menu"],
     price: 10000,
+    bestFor: ["Self Treat", "Teman Ngopi", "Gift"],
     discountPct: 20,
     size: "Ø ±10 cm",
     accent: "#8D5B4C",
@@ -88,6 +89,7 @@ export const products = [
     image: COOKIE_IMAGES.velvet_crush,
     labels: ["New Menu"],
     price: 12000,
+    bestFor: ["Self Treat", "Teman Ngopi", "Gift"],
     discountPct: 20,
     size: "Ø ±10 cm",
     accent: "#9B2C2C",
@@ -105,6 +107,7 @@ export const products = [
     image: COOKIE_IMAGES.matcha,
     labels: ["New Menu"],
     price: 12000,
+    bestFor: ["Self Treat", "Teman Ngopi", "Gift"],
     discountPct: 20,
     size: "Ø ±10 cm",
     accent: "#86A789",
@@ -122,6 +125,7 @@ export const products = [
     image: COOKIE_IMAGES.blue_monstiez,
     labels: ["New Menu"],
     price: 12000,
+    bestFor: ["Self Treat", "Teman Ngopi", "Gift"],
     discountPct: 20,
     size: "Ø ±10 cm",
     accent: "#3B82F6",
@@ -142,6 +146,7 @@ export const products = [
     image: BOLU_IMAGES.ketan_hitam_lumer,
     labels: ["Best Seller", "Recommended"],
     price: 5000,
+    bestFor: ["Self Treat", "Arisan", "Snack Box"],
     discountPct: 0,
     accent: "#3A2A2E",
     descId:
@@ -159,6 +164,7 @@ export const products = [
     image: BOLU_IMAGES.ketan_hitam_parut,
     labels: [],
     price: 5000,
+    bestFor: ["Self Treat", "Arisan", "Snack Box"],
     discountPct: 0,
     accent: "#3A2A2E",
     descId:
@@ -176,6 +182,7 @@ export const products = [
     image: BOLU_IMAGES.redvelvet_lumer,
     labels: [],
     price: 5000,
+    bestFor: ["Self Treat", "Arisan", "Snack Box"],
     discountPct: 0,
     accent: "#9B2C2C",
     descId:
@@ -193,6 +200,7 @@ export const products = [
     image: BOLU_IMAGES.redvelvet_parut,
     labels: [],
     price: 5000,
+    bestFor: ["Self Treat", "Arisan", "Snack Box"],
     discountPct: 0,
     accent: "#9B2C2C",
     descId:
@@ -210,6 +218,7 @@ export const products = [
     image: BOLU_IMAGES.pandan_lumer,
     labels: ["Best Seller", "Recommended"],
     price: 5000,
+    bestFor: ["Self Treat", "Arisan", "Snack Box"],
     discountPct: 0,
     accent: "#86A789",
     descId:
@@ -227,6 +236,7 @@ export const products = [
     image: BOLU_IMAGES.pandan_parut,
     labels: [],
     price: 5000,
+    bestFor: ["Self Treat", "Arisan", "Snack Box"],
     discountPct: 0,
     accent: "#86A789",
     descId:
@@ -246,6 +256,7 @@ export const products = [
     image: BOLU_BIG_IMAGES.ketan_hitam,
     labels: [],
     price: 45000,
+    bestFor: ["Sharing", "Acara Keluarga", "Ulang Tahun"],
     discountPct: 0,
     accent: "#3A2A2E",
     descId:
@@ -263,6 +274,7 @@ export const products = [
     image: BOLU_BIG_IMAGES.pandan,
     labels: [],
     price: 45000,
+    bestFor: ["Sharing", "Acara Keluarga", "Ulang Tahun"],
     discountPct: 0,
     accent: "#86A789",
     descId:
@@ -282,6 +294,7 @@ export const products = [
     image: BROWNIES_IMAGES.keju_full,
     labels: [],
     price: 35000,
+    bestFor: ["Sharing", "Meeting", "Arisan"],
     discountPct: 0,
     accent: "#FCD34D",
     descId:
@@ -296,9 +309,11 @@ export const products = [
     name: "Brownies Ketan Hitam Topping ½ Keju Parut + ½ Choco Chips",
     shortName: "Brownies · ½ Keju + ½ Choco",
     category: "Brownies",
+    image: BROWNIES_IMAGES.half_half,
     illustration: "brownies-half",
     labels: [],
     price: 35000,
+    bestFor: ["Sharing", "Meeting", "Arisan"],
     discountPct: 0,
     accent: "#8D5B4C",
     descId:

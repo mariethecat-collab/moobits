@@ -6,7 +6,7 @@ import { useLang } from "../i18n/LanguageContext";
 import { formatIDR } from "../data/products";
 
 export default function CartDrawer() {
-  const { isOpen, setIsOpen, lines, totals, updateQty, updateNote, removeItem } =
+  const { isOpen, setIsOpen, lines, totals, updateQty, updateNote, removeItem, addItem } =
     useCart();
   const { t, lang } = useLang();
 
@@ -21,6 +21,19 @@ export default function CartDrawer() {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
+const cookieIds = ["classic-og", "velvet-crush", "matcha-cookies", "blue-monstiez"];
+const hasIndividualCookie = lines.some((l) => cookieIds.includes(l.id));
+const hasBundle = lines.some((l) => l.id === "bundle-cookies-4-varian");
+const showBundleUpsell = hasIndividualCookie && !hasBundle;
+
+const addCookieBundle = () => {
+  addItem(
+    "bundle-cookies-4",
+    1,
+    "Bundle berisi The Classic OG, The Velvet Crush, The Matcha Cookies, dan The Blue Monstiez."
+  );
+};
 
   return (
     <>
@@ -102,12 +115,12 @@ export default function CartDrawer() {
                   data-testid={`cart-line-${l.id}`}
                   className="flex gap-3 rounded-2xl bg-[#FDFBF7] p-3 ring-1 ring-black/5"
                 >
-                  <div className="h-20 w-20 shrink-0 rounded-xl overflow-hidden bg-black">
+                  <div className="h-20 w-20 shrink-0 rounded-xl bg-tranparent overflow-visible ">
                     {l.product.image ? (
                       <img
                         src={l.product.image}
                         alt={l.product.name}
-                        className="product-img-blend h-full w-full object-cover"
+                        className="product-img-blend h-full w-full object-containt"
                       />
                     ) : (
                       <div className="h-full w-full flex items-center justify-center text-white/60 text-xs">
@@ -195,6 +208,24 @@ export default function CartDrawer() {
             </ul>
           )}
         </div>
+
+{showBundleUpsell && (
+  <div className="mx-5 mb-3 rounded-2xl border border-[#F3D7A6] bg-[#FFF7E8] p-4">
+    <p className="font-display text-sm font-bold text-[#5A3825]">
+      Lengkapi jadi Bundling Cookies 4 Varian 🍪
+    </p>
+    <p className="mt-1 text-xs text-[#7A5A43]">
+      Tambahkan semua varian cookies dan hemat 10% untuk bundle lengkap.
+    </p>
+    <button
+      type="button"
+      onClick={addCookieBundle}
+      className="mt-3 rounded-full bg-[#8D5B4C] px-4 py-2 text-xs font-bold text-white"
+    >
+      Tambahkan Bundle
+    </button>
+  </div>
+)}
 
         {/* Footer */}
         {lines.length > 0 && (

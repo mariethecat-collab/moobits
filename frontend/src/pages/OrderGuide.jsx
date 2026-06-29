@@ -55,7 +55,7 @@ export default function OrderGuide() {
               target="_blank"
               rel="noopener noreferrer"
               data-testid="order-guide-cta"
-              className="inline-flex items-center gap-2 rounded-full bg-[#121212] px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-[#2A2A2A] active:scale-[0.97] transition-all"
+              className="inline-flex items-center gap-2 rounded-full bg-[#FCD34D] px-6 py-3.5 text-[15px] font-semibold text-[#121212] hover:bg-[#121212] hover:text-white active:scale-[0.97] transition-all"
             >
               {t.nav.orderNow}
               <ArrowUpRight size={16} />
@@ -69,7 +69,7 @@ export default function OrderGuide() {
         <div className="mx-auto max-w-5xl px-5 sm:px-8">
           <div className="rounded-[2.5rem] bg-[#FDFBF7] p-8 sm:p-10 lg:p-12 ring-1 ring-black/5">
             <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[#9B2C2C]">
-              <span className="h-1 w-6 rounded-full bg-[#9B2C2C]" />
+              <span className="h-1 w-6 rounded-full bg-[#FCD34D]" />
               Rules
             </div>
             <h2 className="mt-3 font-display text-2xl sm:text-3xl font-bold text-[#121212]">

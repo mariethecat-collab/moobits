@@ -100,7 +100,7 @@ export default function Policy() {
             target="_blank"
             rel="noopener noreferrer"
             data-testid="policy-wa-cta"
-            className="inline-flex items-center gap-2 rounded-full bg-[#121212] px-6 py-3.5 text-[14px] font-semibold text-white hover:bg-[#2A2A2A] transition-all"
+            className="inline-flex items-center gap-2 rounded-full bg-[#FCD34D] px-6 py-3.5 text-[14px] font-semibold text-[#121212] hover:bg-[#121212] hover:text-white transition-all"
           >
             {lang === "id" ? "Tanya via WhatsApp" : "Ask via WhatsApp"}
             <ArrowUpRight size={15} />

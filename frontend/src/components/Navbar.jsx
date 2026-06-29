@@ -12,8 +12,7 @@ const NavItem = ({ to, children, onClick }) => (
     onClick={onClick}
     data-testid={`nav-link-${to.replace("/", "") || "home"}`}
     className={({ isActive }) =>
-      `relative px-1 py-2 text-[15px] font-medium transition-colors duration-200 ${
-        isActive ? "text-[#121212]" : "text-[#525252] hover:text-[#121212]"
+      `relative px-1 py-2 text-[15px] font-medium transition-colors duration-200 ${isActive ? "text-[#121212]" : "text-[#525252] hover:text-[#121212]"
       } group`
     }
   >
@@ -21,9 +20,8 @@ const NavItem = ({ to, children, onClick }) => (
       <>
         {children}
         <span
-          className={`pointer-events-none absolute -bottom-0.5 left-0 h-[2px] rounded-full bg-[#8D5B4C] transition-all duration-300 ${
-            isActive ? "w-full" : "w-0 group-hover:w-full"
-          }`}
+          className={`pointer-events-none absolute -bottom-0.5 left-0 h-[2px] rounded-full bg-[#FCD34D] transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"
+            }`}
         />
       </>
     )}
@@ -51,11 +49,10 @@ export default function Navbar() {
   return (
     <header
       data-testid="site-navbar"
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/75 backdrop-blur-xl border-b border-black/5"
-          : "bg-white/40 backdrop-blur-md border-b border-transparent"
-      }`}
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled
+        ? "bg-white/75 backdrop-blur-xl border-b border-black/5"
+        : "bg-white/40 backdrop-blur-md border-b border-transparent"
+        }`}
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex h-16 md:h-[72px] items-center justify-between">
@@ -65,7 +62,7 @@ export default function Navbar() {
             data-testid="logo-link"
             className="flex items-center gap-2.5 group"
           >
-            <div className="h-10 w-10 rounded-full overflow-hidden ring-1 ring-black/5 bg-black flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+            <div className="h-10 w-10 rounded-full overflow-hidden ring-1 ring-black/5 bg-transperent flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
               <img
                 src={LOGO_URL}
                 alt="Moobits"
@@ -100,7 +97,7 @@ export default function Navbar() {
               onClick={() => setCartOpen(true)}
               data-testid="navbar-cart-button"
               aria-label="Open order cart"
-              className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/80 ring-1 ring-black/10 text-[#121212] hover:bg-[#FDFBF7] transition-colors"
+              className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/80 ring-1 ring-black/10 text-[#121212] hover:bg-[#FCD34D] transition-colors"
             >
               <ShoppingBag size={16} />
               {totals.totalItems > 0 && (
@@ -119,23 +116,23 @@ export default function Navbar() {
               onClick={toggleLang}
               data-testid="language-toggle"
               aria-label="Toggle language"
-              className="hidden sm:flex items-center gap-1 rounded-full border border-black/10 bg-white/70 px-1 py-1 text-[12px] font-semibold"
+              className="hidden sm:flex relative items-center rounded-full border border-black/10 bg-white/70 p-1 text-[12px] font-semibold overflow-hidden"
             >
               <span
-                className={`px-2.5 py-1 rounded-full transition-all ${
-                  lang === "id"
-                    ? "bg-[#121212] text-white"
-                    : "text-[#525252] hover:text-[#121212]"
-                }`}
+                className={`absolute left-1 top-1 h-[26px] w-[36px] rounded-full bg-[#FCD34D] shadow-sm transition-transform duration-300 ease-out ${lang === "id" ? "translate-x-0" : "translate-x-[38px]"
+                  }`}
+              />
+
+              <span
+                className={`relative z-10 flex h-[26px] w-[36px] items-center justify-center rounded-full transition-colors duration-300 ${lang === "id" ? "text-[#121212]" : "text-[#525252]"
+                  }`}
               >
                 ID
               </span>
+
               <span
-                className={`px-2.5 py-1 rounded-full transition-all ${
-                  lang === "en"
-                    ? "bg-[#121212] text-white"
-                    : "text-[#525252] hover:text-[#121212]"
-                }`}
+                className={`relative z-10 flex h-[26px] w-[36px] items-center justify-center rounded-full transition-colors duration-300 ${lang === "en" ? "text-[#121212]" : "text-[#525252]"
+                  }`}
               >
                 EN
               </span>
@@ -147,7 +144,7 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               data-testid="navbar-order-cta"
-              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-[#121212] px-4 lg:px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#2A2A2A] active:scale-[0.97]"
+              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-[#FCD34D] px-4 lg:px-5 py-2.5 text-sm font-semibold text-[#121212] shadow-sm transition-all duration-200 hover:bg-[#121212] hover:text-white active:scale-[0.97]"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-[#86A789] animate-pulse" />
               {t.nav.orderNow}
@@ -169,9 +166,8 @@ export default function Navbar() {
 
       {/* Mobile drawer */}
       <div
-        className={`lg:hidden overflow-hidden border-t border-black/5 transition-[max-height,opacity] duration-300 ease-out bg-white/95 backdrop-blur-xl ${
-          open ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-        }`}
+        className={`lg:hidden overflow-hidden border-t border-black/5 transition-[max-height,opacity] duration-300 ease-out bg-white/95 backdrop-blur-xl ${open ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          }`}
       >
         <nav
           className="flex flex-col px-6 py-5 gap-1"
@@ -203,20 +199,18 @@ export default function Navbar() {
               className="flex items-center gap-1 rounded-full border border-black/10 bg-white px-1 py-1 text-[12px] font-semibold"
             >
               <span
-                className={`px-2.5 py-1 rounded-full ${
-                  lang === "id"
-                    ? "bg-[#121212] text-white"
-                    : "text-[#525252]"
-                }`}
+                className={`px-2.5 py-1 rounded-full ${lang === "id"
+                  ? "bg-[#121212] text-white"
+                  : "text-[#525252]"
+                  }`}
               >
                 ID
               </span>
               <span
-                className={`px-2.5 py-1 rounded-full ${
-                  lang === "en"
-                    ? "bg-[#121212] text-white"
-                    : "text-[#525252]"
-                }`}
+                className={`px-2.5 py-1 rounded-full ${lang === "en"
+                  ? "bg-[#121212] text-white"
+                  : "text-[#525252]"
+                  }`}
               >
                 EN
               </span>

@@ -36,9 +36,8 @@ const Eyebrow = ({ children, color = "#8D5B4C" }) => (
 
 const SectionTitle = ({ eyebrow, title, sub, color, align = "left" }) => (
   <div
-    className={`max-w-3xl ${
-      align === "center" ? "mx-auto text-center" : ""
-    }`}
+    className={`max-w-3xl ${align === "center" ? "mx-auto text-center" : ""
+      }`}
   >
     {eyebrow && <Eyebrow color={color}>{eyebrow}</Eyebrow>}
     <h2 className="mt-4 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#121212]">
@@ -62,11 +61,12 @@ export default function Home() {
   );
 
   // Pick one representative image per category
+  const getProductImage = (id) => products.find((p) => p.id === id)?.image;
   const categoryReps = {
-    Cookies: { type: "image", src: cookies[0].image, accent: "#8D5B4C" },
-    "Bolu Mini": { type: "illu", key: "bolu-pandan", accent: "#86A789" },
-    "Bolu BIG": { type: "illu", key: "bolubig-ketanhitam", accent: "#3A2A2E" },
-    Brownies: { type: "illu", key: "brownies-keju", accent: "#3F2418" },
+    Cookies: { type: "image", src: getProductImage("classic-og"), accent: "#8D5B4C" },
+    "Bolu Mini": { type: "image", src: getProductImage("bm-ketan-hitam-lumer"), accent: "#86A789" },
+    "Bolu BIG": { type: "image", src: getProductImage("bb-pandan-lumer"), accent: "#3A2A2E" },
+    Brownies: { type: "image", src: getProductImage("br-keju-full"), accent: "#3F2418" },
   };
 
   return (
@@ -101,7 +101,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-testid="hero-primary-cta"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#121212] px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-200 hover:bg-[#2A2A2A] active:scale-[0.97] shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#FCD34D] px-6 py-3.5 text-[15px] font-semibold text-[#121212] transition-all duration-200 hover:bg-[#121212] hover:text-white active:scale-[0.97] shadow-sm"
                 >
                   {t.hero.primaryCta}
                   <ArrowUpRight size={16} />
@@ -109,7 +109,7 @@ export default function Home() {
                 <Link
                   to="/menu"
                   data-testid="hero-secondary-cta"
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-[#121212] ring-1 ring-black/10 transition-all duration-200 hover:bg-[#FDFBF7] active:scale-[0.97]"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-[#121212] ring-1 ring-black/10 transition-all duration-200 hover:bg-[#FCD34D] active:scale-[0.97]"
                 >
                   {t.hero.secondaryCta}
                   <ArrowRight size={16} />
@@ -125,28 +125,23 @@ export default function Home() {
             {/* Visual: Cookie showcase */}
             <div className="lg:col-span-6 relative">
               <div className="relative aspect-square sm:aspect-[5/4] lg:aspect-square w-full max-w-[560px] mx-auto">
-                <div className="absolute inset-0 rounded-[2.5rem] bg-[#0A0A0A] overflow-hidden ring-1 ring-black/5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)]">
-                  {/* 4 cookies arranged */}
-                  <img
-                    src={cookies[0].image}
-                    alt={cookies[0].name}
-                    className="product-img-blend absolute top-[6%] left-[8%] w-[46%]"
-                  />
-                  <img
-                    src={cookies[1].image}
-                    alt={cookies[1].name}
-                    className="product-img-blend absolute top-[10%] right-[6%] w-[40%]"
-                  />
-                  <img
-                    src={cookies[2].image}
-                    alt={cookies[2].name}
-                    className="product-img-blend absolute bottom-[6%] left-[12%] w-[38%]"
-                  />
-                  <img
-                    src={cookies[3].image}
-                    alt={cookies[3].name}
-                    className="product-img-blend absolute bottom-[8%] right-[10%] w-[44%]"
-                  />
+                <div className="absolute inset-0 rounded-[2.5rem] bg-white overflow-hidden ring-1 ring-black/5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)]">
+                  {/* 2x2 Cookie Grid */}
+                  <div className="absolute inset-0 p-6 grid grid-cols-2 gap-4">
+                    {cookies.slice(0, 4).map((cookie, index) => (
+                      <div
+                        key={cookie.id}
+                        className="flex items-center justify-center overflow-visible"
+                      >
+                        <img
+                          src={cookie.image}
+                          alt={cookie.name}
+                          className={`w-full h-full object-contain float-${(index % 4) + 1
+                            }`}
+                        />
+                      </div>
+                    ))}
+                  </div>
 
                   {/* Floating tag */}
                   <div className="absolute top-5 left-5 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#9B2C2C]">
@@ -166,7 +161,7 @@ export default function Home() {
 
                 {/* Floating cookie chip badge */}
                 <div className="absolute -bottom-6 -left-3 sm:-left-6 rounded-[1.5rem] bg-white ring-1 ring-black/5 shadow-lg p-3 pl-2 pr-4 flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full overflow-hidden bg-black">
+                  <div className="h-12 w-12 rounded-full overflow-hidden bg-transperent">
                     <img
                       src={LOGO_URL}
                       alt="logo"
@@ -203,7 +198,7 @@ export default function Home() {
               <Link
                 to="/about"
                 data-testid="about-preview-cta"
-                className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#FDFBF7] px-5 py-3 text-[14px] font-semibold text-[#121212] ring-1 ring-black/10 hover:bg-white transition-colors"
+                className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-[#121212] ring-1 ring-black/10 hover:bg-[#FCD34D] transition-colors"
               >
                 {t.aboutPreview.cta}
                 <ArrowRight size={15} />
@@ -237,7 +232,7 @@ export default function Home() {
       </section>
 
       {/* ===================== NEW MENU: COOKIES ===================== */}
-      <section className="py-16 md:py-24 bg-[#FDFBF7]">
+      <section className="py-16 md:py-24 bg-transparent">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <SectionTitle
@@ -266,9 +261,9 @@ export default function Home() {
       {/* ===================== BUNDLE PROMO ===================== */}
       <section className="py-12 md:py-20 bg-[#FDFBF7]">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="rounded-[2.5rem] bg-[#0A0A0A] text-white overflow-hidden ring-1 ring-white/5">
+          <div className="rounded-[2.5rem] bg-[#FCD34D] text-white overflow-hidden ring-1 ring-black/5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)]">
             <div className="grid grid-cols-1 lg:grid-cols-12">
-              <div className="lg:col-span-7 p-8 sm:p-10 lg:p-14">
+              <div className="lg:col-span-7 p-8 sm:p-10 lg:p-14 bg-[#0A0A0A]">
                 <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#FCD34D]">
                   <Package size={13} />
                   {t.bundle.eyebrow}
@@ -331,23 +326,24 @@ export default function Home() {
                   {t.bundle.note}
                 </p>
               </div>
+              <div className="lg:col-span-5 relative bg-[#FCD34D] overflow-hidden min-h-[260px]">
+                <div className="absolute inset-0 bg-[#FCD34D]" />
 
-              <div className="lg:col-span-5 relative bg-black overflow-hidden min-h-[260px]">
-                <div className="absolute inset-0 grid grid-cols-2 gap-1 p-4">
-                  {cookies.map((c) => (
+                <div className="relative z-10 grid grid-cols-2 gap-0 p-6 h-full">
+                  {cookies.map((c, index) => (
                     <div
                       key={c.id}
-                      className="rounded-2xl overflow-hidden ring-1 ring-white/5"
+                      className="aspect-square flex items-center justify-center bg-[#FCD34D] overflow-visible"
                     >
                       <img
                         src={c.image}
                         alt={c.name}
-                        className="h-full w-full object-cover"
+                        className={`block h-full w-full object-contain bg-transparentfloat-${(index % 4) + 1}`}
                       />
                     </div>
                   ))}
                 </div>
-                <div className="absolute bottom-4 right-4 rounded-full bg-white text-[#121212] px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-wider shadow-lg">
+                <div className="absolute z-20 bottom-4 right-4 rounded-full bg-white text-[#121212] px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-wider shadow-lg">
                   4 Variants · 1 Bundle
                 </div>
               </div>
@@ -450,14 +446,14 @@ export default function Home() {
                   to="/menu"
                   state={{ category: cat }}
                   data-testid={`category-card-${cat}`}
-                  className="group flex flex-col rounded-[2rem] bg-[#0A0A0A] ring-1 ring-white/5 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  className="group flex flex-col rounded-[2rem] bg-white ring-1 ring-black/5 overflow-hidden transition-all duration-300 hover:-translate-y-1 shadow-[0_18px_50px_-30px_rgba(0,0,0,0.35)] hover:shadow-[0_24px_70px_-34px_rgba(0,0,0,0.45)]"
                 >
-                  <div className="relative aspect-[4/3] bg-black overflow-hidden">
+                  <div className="relative aspect-[4/3] bg-white overflow-hidden flex items-center justify-center p-6">
                     {rep.type === "image" ? (
                       <img
                         src={rep.src}
                         alt={cat}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (
                       <CategoryIllustration
@@ -470,7 +466,7 @@ export default function Home() {
                       style={{ background: rep.accent }}
                     />
                   </div>
-                  <div className="p-6 text-white">
+                  <div className="p-6 text-[#121212] border-t border-black/5">
                     <div
                       className="text-[10px] uppercase tracking-[0.22em] font-bold"
                       style={{ color: rep.accent }}
@@ -480,10 +476,10 @@ export default function Home() {
                     <div className="mt-2 font-display text-[19px] font-semibold">
                       {cat}
                     </div>
-                    <p className="mt-2 text-[13px] leading-relaxed text-white/65">
+                    <p className="mt-2 text-[13px] leading-relaxed text-black/65">
                       {t.explore.categories[cat]}
                     </p>
-                    <span className="mt-5 inline-flex items-center gap-1 text-[12.5px] font-semibold text-white/90 group-hover:text-[#FCD34D] transition-colors">
+                    <span className="mt-5 inline-flex items-center gap-1 text-[12.5px] font-semibold text-[#121212] group-hover:text-[#FCD34D] transition-colors">
                       {t.explore.cta} <ArrowUpRight size={13} />
                     </span>
                   </div>
@@ -527,7 +523,7 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                     data-testid="promo-cta"
-                    className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-[#9B2C2C] transition-all duration-200 hover:bg-[#FCD34D] hover:text-[#3A2A0E] active:scale-[0.97]"
+                    className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-[#121212] hover:bg-[#FCD34D] active:scale-[0.97] transition-all transition-all duration-200 active:scale-[0.97]"
                   >
                     {t.promo.cta}
                     <ArrowUpRight size={16} />
@@ -537,17 +533,15 @@ export default function Home() {
 
               <div className="lg:col-span-5">
                 <div className="grid grid-cols-2 gap-3">
-                  {cookies.map((c, i) => (
+                  {cookies.map((c, index) => (
                     <div
                       key={c.id}
-                      className={`aspect-square rounded-3xl overflow-hidden bg-black ring-1 ring-white/10 ${
-                        i % 2 ? "translate-y-4" : ""
-                      }`}
+                      className="rounded-2xl overflow-visible bg-transparent"
                     >
                       <img
                         src={c.image}
                         alt={c.name}
-                        className="product-img-blend h-full w-full object-cover"
+                        className={`h-full w-full object-cover float-${(index % 4) + 1}`}
                       />
                     </div>
                   ))}
@@ -565,7 +559,7 @@ export default function Home() {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-4xl px-5 sm:px-8 text-center">
           <Eyebrow>Order Now</Eyebrow>
-          <h2 className="mt-4 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#121212]">
+          <h2 className="mt-4  font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#121212]">
             {t.finalCta.title}
           </h2>
           <p className="mt-4 text-[17px] leading-relaxed text-[#525252]">
@@ -577,14 +571,14 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               data-testid="final-cta-order"
-              className="inline-flex items-center gap-2 rounded-full bg-[#121212] px-7 py-3.5 text-[15px] font-semibold text-white hover:bg-[#2A2A2A] active:scale-[0.97] transition-all"
+              className="inline-flex items-center gap-2 rounded-full bg-[#FCD34D] px-7 py-3.5 text-[15px] font-semibold text-[#121212] hover:bg-[#121212] hover:text-white active:scale-[0.97] transition-all"
             >
               {t.finalCta.cta}
               <ArrowUpRight size={16} />
             </a>
             <Link
               to="/menu"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[15px] font-semibold text-[#121212] ring-1 ring-black/10 hover:bg-[#FDFBF7] transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[15px] font-semibold text-[#121212] ring-1 ring-black/10 hover:bg-[#FCD34D] transition-colors"
               data-testid="final-cta-menu"
             >
               {t.common.viewMenu}

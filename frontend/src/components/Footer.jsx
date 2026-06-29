@@ -15,7 +15,7 @@ export default function Footer() {
           {/* Brand block */}
           <div className="md:col-span-5">
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-full overflow-hidden bg-black ring-1 ring-black/5">
+              <div className="h-12 w-12 rounded-full overflow-hidden">
                 <img
                   src={LOGO_URL}
                   alt="Moobits"

@@ -112,6 +112,36 @@ export default function AdminOrders() {
     return u.toString();
   };
 
+const updateOrderStatus = (id, status) => {
+  setOrders((prev) =>
+    prev.map((o) =>
+      o.id === id ? { ...o, orderStatus: status } : o
+    )
+  );
+};
+
+const updatePaymentStatus = (id, status) => {
+  setOrders((prev) =>
+    prev.map((o) =>
+      o.id === id ? { ...o, paymentStatus: status } : o
+    )
+  );
+};
+
+const sendWhatsAppUpdate = (o) => {
+  const rawPhone = o.customerPhone || o.phone || o.whatsapp || "";
+  const phone = rawPhone.replace(/^0/, "62").replace(/[^0-9]/g, "");
+
+  const message = `Halo ${o.customerName || "Customer"}, ini dari Moobits ya.
+
+Order kamu dengan invoice ${o.invoiceNumber} statusnya: ${o.orderStatus || "Confirmed"}.
+
+Thank you sudah order di Moobits.
+Treat Yourself, Fix Your Mood.`;
+
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank");
+};
+
   return (
     <div data-testid="page-admin-orders">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -162,13 +192,67 @@ export default function AdminOrders() {
                 <td className="px-5 py-3">{fmtIDR(o.total)}</td>
                 <td className="px-5 py-3">{o.paymentStatus}</td>
                 <td className="px-5 py-3">{o.orderStatus}</td>
-                <td className="px-5 py-3 text-right">
-                  <button onClick={()=>setSelected(o)} data-testid={`view-${o.invoiceNumber}`} className="rounded-full bg-[#FDFBF7] ring-1 ring-black/5 px-3 py-1.5 text-[12px] font-semibold">View</button>
-                </td>
+                <td className="px-5 py-3 text-right align-top">
+                  <div className="flex flex-wrap justify-end gap-1 max-w-[220px] ml-auto">
+                    <button
+                    onClick={() => navigator.clipboard.writeText(o.customerPhone || o.phone || o.whatsapp || "")}
+                    className="px-2 py-1 rounded-lg bg-gray-100 text-gray-700 text-[11px]"
+                  >
+                    Copy WA
+                  </button>
+
+                  <button
+                    onClick={() => updatePaymentStatus(o.id, "Paid")}
+                    className="px-2 py-1 rounded-lg bg-green-100 text-green-700 text-[11px]"
+                  >
+                    Paid
+                  </button>
+
+                  <button
+                    onClick={() => updateOrderStatus(o.id, "In Production")}
+                    className="px-2 py-1 rounded-lg bg-yellow-100 text-yellow-700 text-[11px]"
+                  >
+                    Production
+                  </button>
+
+                  <button
+                    onClick={() => updateOrderStatus(o.id, "Ready")}
+                    className="px-2 py-1 rounded-lg bg-blue-100 text-blue-700 text-[11px]"
+                  >
+                    Ready
+                  </button>
+
+                  <button
+                    onClick={() => sendWhatsAppUpdate(o)}
+                    className="px-2 py-1 rounded-lg bg-[#8D5B4C] text-white text-[11px]"
+                  >
+                    Send WA
+                  </button>
+
+                  <button
+                    onClick={() => setSelected(o)}
+                    className="px-2 py-1 rounded-lg border border-black/10 text-[11px]"
+                  >
+                    View
+                  </button>
+                </div>
+              </td>
               </tr>
+
             ))}
           </tbody>
         </table>
+
+        {selected && (
+  <Detail
+    order={selected}
+    onClose={() => setSelected(null)}
+    onSaved={() => {
+      // isi function kalau ada
+    }}
+  />
+)}
+
       </div>
 
       {selected && <Detail order={selected} onClose={()=>setSelected(null)} onSaved={()=>{ setSelected(null); load(); }}/>}

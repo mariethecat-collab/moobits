@@ -1,5 +1,5 @@
 import "@/App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, uselocation } from "react-router-dom";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { CartProvider } from "@/cart/CartContext";
 import { AuthProvider } from "@/admin/AuthContext";
@@ -34,7 +34,7 @@ const PublicShell = ({ children }) => (
   </>
 );
 
-function App() {
+function App() {`1`
   return (
     <div className="App">
       <AuthProvider>

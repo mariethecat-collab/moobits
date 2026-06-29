@@ -44,10 +44,10 @@ export default function ProductCard({ product, featured = false }) {
   return (
     <article
       data-testid={`product-card-${product.id}`}
-      className="group relative flex flex-col rounded-[2rem] bg-[#0A0A0A] text-white overflow-hidden ring-1 ring-white/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.45)]"
+      className="group relative flex flex-col rounded-[2rem] bg-white/70 backdrop-blur-md text-[#121212] overflow-hidden ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.45)]"
     >
       {/* Image / Illustration */}
-      <div className="relative aspect-square bg-black overflow-hidden">
+      <div className="relative aspect-square bg-transparent overflow-hidden">
         {product.image ? (
           <img
             src={product.image}
@@ -101,19 +101,19 @@ export default function ProductCard({ product, featured = false }) {
             {product.category}
           </span>
           {product.size && (
-            <span className="text-[11px] text-white/55">{product.size}</span>
+            <span className="text-[11px] text-black/55">{product.size}</span>
           )}
         </div>
 
         <h3
-          className={`mt-3 font-display font-semibold text-white leading-tight ${
+          className={`mt-3 font-display font-semibold text-[#121212] leading-tight ${
             featured ? "text-[22px]" : "text-[18px]"
           }`}
         >
           {product.name}
         </h3>
 
-        <p className="mt-2 text-[13.5px] leading-relaxed text-white/65 line-clamp-3">
+        <p className="mt-2 text-[13.5px] leading-relaxed text-black/60 line-clamp-3">
           {desc}
         </p>
 
@@ -122,30 +122,43 @@ export default function ProductCard({ product, featured = false }) {
             {textures.map((tx) => (
               <span
                 key={tx}
-                className="inline-flex rounded-full bg-white/8 px-2.5 py-1 text-[10.5px] font-medium text-white/75 ring-1 ring-white/10"
+                className="inline-flex rounded-full bg-black/10 px-2.5 py-1 text-[10.5px] font-medium text-black/75 ring-1 ring-black/10"
               >
                 {tx}
               </span>
             ))}
           </div>
         )}
+        {product.bestFor?.length > 0 && (
+  <div className="mt-2 flex flex-wrap gap-1.5">
+    {product.bestFor.map((tag) => (
+      <span
+        key={tag}
+        className="inline-flex rounded-full bg-[#FDFBF7] px-2.5 py-1 text-[10px] font-medium text-[#8D5B4C] ring-1 ring-[#8D5B4C]/20"
+      >
+        {tag}
+      </span>
+    ))}
+  </div>
+)}
 
         {/* Price */}
-        <div className="mt-6 pt-5 border-t border-white/10">
+        <div className="flex-1 min-h-6" />
+        <div className="pt-5 border-t border-black/10">
           <div className="flex items-end justify-between gap-3">
             <div>
               {hasDiscount && (
-                <div className="text-[11px] text-white/40 line-through leading-none">
+                <div className="text-[11px] text-black/40 line-through leading-none">
                   {formatIDR(product.price)}
                 </div>
               )}
-              <div className="mt-1 font-display text-[22px] font-bold text-white leading-none">
+              <div className="mt-1 font-display text-[22px] font-bold text-[#121212] leading-none">
                 {formatIDR(hasDiscount ? discounted : product.price)}
               </div>
             </div>
 
             {/* Qty selector */}
-            <div className="inline-flex items-center rounded-full bg-white/10 ring-1 ring-white/15">
+            <div className="inline-flex items-center rounded-full bg-black/50 ring-1 ring-black/100">
               <button
                 type="button"
                 onClick={() => setQty((q) => Math.max(1, q - 1))}
@@ -180,7 +193,7 @@ export default function ProductCard({ product, featured = false }) {
             className={`mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[13.5px] font-semibold transition-all duration-200 active:scale-[0.97] ${
               justAdded
                 ? "bg-[#86A789] text-white"
-                : "bg-white text-[#121212] hover:bg-[#FCD34D]"
+                : "bg-[#FCD34D] text-[#121212]"
             }`}
           >
             {justAdded ? (

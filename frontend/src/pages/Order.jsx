@@ -75,6 +75,7 @@ export default function Order() {
     method: op.fields.pickup,
     address: "",
     deliveryDate: todayISO(),
+    timeSlot: "",
     payment: op.fields.paymentOptions[0],
     greeting: "",
     custom: "",
@@ -121,6 +122,7 @@ export default function Order() {
       customerWa: form.whatsapp.trim(),
       method: form.method,
       address: form.address.trim(),
+      timeSlot: form.timeSlot,
       deliveryDate: form.deliveryDate,
       paymentMethod: form.payment,
       greeting: form.greeting.trim(),
@@ -192,6 +194,7 @@ export default function Order() {
         `Nomor WhatsApp: ${invoiceData.customerWa}`,
         `Metode Pengambilan/Pengiriman: ${invoiceData.method}`,
         `Tanggal Pengiriman/Pickup: ${invoiceData.deliveryDate}`,
+        `Jam Pickup/Pengiriman: ${invoiceData.timeSlot || "-"}`,
         `Alamat: ${invoiceData.address || "-"}`,
         `Metode Pembayaran: ${invoiceData.paymentMethod}`,
         "",
@@ -360,7 +363,7 @@ export default function Order() {
                         data-testid={`order-line-${l.id}`}
                         className="flex gap-4 rounded-2xl bg-[#FDFBF7] p-3 ring-1 ring-black/5"
                       >
-                        <div className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 rounded-xl overflow-hidden bg-black">
+                        <div className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 rounded-xl overflow-hidden bg-muted">
                           {l.product.image && (
                             <img
                               src={l.product.image}
@@ -542,6 +545,28 @@ export default function Order() {
                       data-testid="form-date"
                     />
                   </div>
+
+                  <div>
+                    <label className={fieldLabel}>Jam Pickup/Pengiriman *</label>
+                    <select
+                    value={form.timeSlot}
+                    onChange={(e) => setField("timeSlot", e.target.value)}
+                    className={cleanInputCls}
+                    required
+                       >
+                    <option value="">Pilih jam</option>
+                    <option value="09.00 - 11.00">09.00 - 11.00</option>
+                    <option value="11.00 - 13.00">11.00 - 13.00</option>
+                    <option value="13.00 - 15.00">13.00 - 15.00</option>
+                    <option value="Request jam tertentu via WhatsApp">
+                      Request jam tertentu via WhatsApp
+                    </option>
+                    </select>
+                    <p className="mt-1 text-xs text-stone-500">
+                      Pengiriman maksimal sampai jam 15.00.
+                    </p>
+                  </div>
+
                   <div>
                     <label className={fieldLabel}>{op.fields.payment}</label>
                     <select
@@ -725,7 +750,7 @@ export default function Order() {
                       type="button"
                       onClick={sendToWa}
                       data-testid="send-wa-btn"
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#9B2C2C] px-5 py-3.5 text-[14px] font-semibold text-white hover:bg-[#7e2222] active:scale-[0.98] transition-all"
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#FCD34D] px-5 py-3.5 text-[14px] font-semibold text-white hover:bg-[#000000] transition-all"
                     >
                       <Send size={15} />
                       {op.sendWa}
